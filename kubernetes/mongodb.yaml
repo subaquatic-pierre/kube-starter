@@ -1,0 +1,231 @@
+apiVersion: v1
+items:
+  # --- DEPLOYMENT ---
+
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        app: thor-mongodb
+      name: thor-mongodb
+      namespace: thor
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: thor-mongodb
+      template:
+        metadata:
+          labels:
+            app: thor-mongodb
+            selector: thor-mongodb
+        spec:
+          containers:
+            - name: thor-mongodb
+              image: mongo:6.0
+              env:
+                - name: MONGO_INITDB_ROOT_USERNAME_FILE
+                  value: /etc/k8-test/admin/MONGO_ROOT_USERNAME
+                - name: MONGO_INITDB_ROOT_PASSWORD_FILE
+                  value: /etc/k8-test/admin/MONGO_ROOT_PASSWORD
+              volumeMounts:
+                - name: k8-test
+                  mountPath: /etc/k8-test
+                  readOnly: true
+                - name: mongodb-scripts
+                  mountPath: /docker-entrypoint-initdb.d
+                  readOnly: true
+                - name: mongodb-configmap
+                  mountPath: /config
+                  readOnly: true
+                - name: mongodb-data
+                  mountPath: /data/db
+
+          nodeSelector:
+            name: thor-vm-demo1
+
+          volumes:
+            - name: k8-test
+              secret:
+                secretName: mongodb-secret
+                items:
+                  - key: MONGO_ROOT_USERNAME
+                    path: admin/MONGO_ROOT_USERNAME
+                    mode: 0444
+                  - key: MONGO_ROOT_PASSWORD
+                    path: admin/MONGO_ROOT_PASSWORD
+                    mode: 0444
+                  - key: MONGO_USERNAME
+                    path: MONGO_USERNAME
+                    mode: 0444
+                  - key: MONGO_PASSWORD
+                    path: MONGO_PASSWORD
+                    mode: 0444
+                  - key: MONGO_USERS_LIST
+                    path: MONGO_USERS_LIST
+                    mode: 0444
+            - name: mongodb-scripts
+              configMap:
+                name: mongodb-configmap
+                items:
+                  - key: ensure-users.js
+                    path: ensure-users.js
+            - name: mongodb-configmap
+              configMap:
+                name: mongodb-configmap
+                items:
+                  - key: mongo.conf
+                    path: mongo.conf
+            - name: mongodb-data
+              persistentVolumeClaim:
+                claimName: mongodb-pvc
+
+  # --- STORAGE CLASS ---
+
+  - kind: StorageClass
+    apiVersion: storage.k8s.io/v1
+    metadata:
+      name: mongodb-storageclass
+      namespace: thor
+    provisioner: kubernetes.io/no-provisioner
+    volumeBindingMode: WaitForFirstConsumer
+    allowVolumeExpansion: true
+
+  # --- PERSISTENT VOLUME ---
+
+  - apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: mongodb-pv
+      namespace: thor
+    spec:
+      capacity:
+        storage: 2Gi
+      volumeMode: Filesystem
+      accessModes:
+        - ReadWriteOnce
+      persistentVolumeReclaimPolicy: Retain
+      storageClassName: mongodb-storageclass
+      local:
+        path: /mnt/data
+      nodeAffinity:
+        required:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - thor-vm-demo1
+
+  # --- PERSISTENT VOLUME CLAIM ---
+
+  - kind: PersistentVolumeClaim
+    apiVersion: v1
+    metadata:
+      name: mongodb-pvc
+      namespace: thor
+    spec:
+      storageClassName: mongodb-storageclass
+      accessModes:
+        - ReadWriteOnce
+      volumeMode: Filesystem
+      volumeName: mongodb-pv
+      resources:
+        requests:
+          storage: 2Gi
+      selector:
+        matchLabels:
+          kubernetes.io/hostname: thor-vm-demo1
+
+  # --- CONFIG MAP ---
+
+  - apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: mongodb-configmap
+      namespace: thor
+    data:
+      mongo.conf: |
+        storage:
+          dbPath: /data/db
+      ensure-users.js: |
+        const targetDbStr = 'test';
+        const rootUser = cat('/etc/k8-test/admin/MONGO_ROOT_USERNAME');
+        const rootPass = cat('/etc/k8-test/admin/MONGO_ROOT_PASSWORD');
+        const usersStr = cat('/etc/k8-test/MONGO_USERS_LIST');
+        const adminDb = db.getSiblingDB('admin');
+        adminDb.auth(rootUser, rootPass);
+        print('Successfully authenticated admin user');
+        const targetDb = db.getSiblingDB(targetDbStr);
+        const customRoles = adminDb
+          .getRoles({rolesInfo: 1, showBuiltinRoles: false})
+          .map(role => role.role)
+          .filter(Boolean);
+        usersStr
+          .trim()
+          .split(';')
+          .map(s => s.split(':'))
+          .forEach(user => {
+            const username = user[0];
+            const rolesStr = user[1];
+            const password = user[2];
+            if (!rolesStr || !password) {
+              return;
+            }
+            const roles = rolesStr.split(',');
+            const userDoc = {
+              user: username,
+              pwd: password,
+            };
+            userDoc.roles = roles.map(role => {
+              if (!~customRoles.indexOf(role)) {
+                return role;
+              }
+              return {role: role, db: 'admin'};
+            });
+            try {
+              targetDb.createUser(userDoc);
+            } catch (err) {
+              if (!~err.message.toLowerCase().indexOf('duplicate')) {
+                throw err;
+              }
+            }
+          });
+
+  #  --- SECRET ---
+
+  - apiVersion: v1
+    kind: Secret
+    metadata:
+      name: mongodb-secret
+      namespace: thor
+    type: Opaque
+    data:
+      MONGO_ROOT_USERNAME: dGhvcgo= # thor
+      MONGO_ROOT_PASSWORD: TWFoYW5hZGlANAo= # Mahanadi@4
+      MONGO_USERNAME: dGhvcgo= # thor
+      MONGO_PASSWORD: TWFoYW5hZGlANAo= # Mahanadi@4
+      MONGO_USERS_LIST: dGhvcgo= # thor
+
+  # --- SERVICE ---
+
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      namespace: thor
+      name: thor-mongodb
+      labels:
+        app: thor-mongodb-svc
+    spec:
+      type: NodePort
+      selector:
+        app: thor-mongodb
+
+      ports:
+        - port: 27017
+          targetPort: 27017
+          nodePort: 31706
+
+kind: List
+metadata:
+  resourceVersion: ""

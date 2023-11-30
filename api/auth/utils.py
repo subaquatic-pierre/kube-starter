@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, Request
 
 from auth.context import pwd_context
 from db import UserCollection
@@ -17,20 +17,11 @@ def hash_password(password):
 
 
 def authenticate_user(email: str, password: str):
-    user = get_user(email)
+    user = User.find_one({"email": email})
     if not user:
         return False
     if not verify_password(password, user.hashed_password):
         return False
-    return user
-
-
-def get_user(email: str) -> User | None:
-    _user = UserCollection.find_one({"email": email})
-    if not _user:
-        return None
-
-    user = User(**_user)
     return user
 
 
@@ -47,7 +38,7 @@ def create_access_token(email: str, expires_delta: timedelta | None = None) -> s
     return encoded_jwt
 
 
-def get_current_user(payload: {"token": str}):
+def get_current_user(token: str) -> User:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -55,7 +46,7 @@ def get_current_user(payload: {"token": str}):
     )
     try:
         decoded = jwt.decode(
-            payload["token"], settings.SECRET_KEY, algorithms=[settings.JWT_ALGORITHM]
+            token, settings.SECRET_KEY, algorithms=[settings.JWT_ALGORITHM]
         )
 
         email: str = decoded.get("email")
@@ -65,7 +56,24 @@ def get_current_user(payload: {"token": str}):
     except JWTError:
         raise credentials_exception
 
-    user = get_user(email)
+    user = User.find_one({"email": email})
     if user is None:
         raise credentials_exception
+
     return user
+
+
+def get_token_from_request(request: Request) -> User:
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        _token = request.headers["authorization"]
+        token = _token.split(" ")[1]
+
+    except:
+        raise credentials_exception
+
+    return token

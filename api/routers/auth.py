@@ -8,10 +8,12 @@ from auth.utils import (
     hash_password,
     authenticate_user,
     create_access_token,
+    get_current_user,
 )
 from models.user import User
-from schemas.user import CreateUserReq, CreateUserRes, LoginUserReq, LoginUserRes
-from schemas.token import TokenRes
+from schemas.user import RegisterUserReq, RegsiterUserRes, LoginUserReq, LoginUserRes
+from schemas.token import TokenRes, RefreshTokenReq
+from auth.utils import get_token_from_request
 
 
 router = APIRouter()
@@ -21,30 +23,35 @@ router = APIRouter()
     "/register",
     status_code=status.HTTP_201_CREATED,
 )
-async def create_user(payload: CreateUserReq) -> CreateUserRes:
+async def regsiter(body: RegisterUserReq) -> RegsiterUserRes:
     # Check if user already exist
-    user = UserCollection.find_one({"email": payload.email.lower()})
+    user = User.find_one({"email": body.email.lower()})
     if user:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="Account already exist"
         )
     # Compare password and passwordConfirm
-    if payload.password != payload.password_onfirm:
+    if body.password != body.password_confirm:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Passwords do not match"
         )
 
-    #  Hash the password
-    payload.hashed_password = hash_password(payload.password)
-    del payload.password_confirm
-    payload.role = "user"
-    payload.verified = True
-    payload.email = payload.email.lower()
-    payload.created_at = datetime.utcnow()
-    payload.updated_at = payload.created_at
+    now = datetime.utcnow()
+    new_data = {
+        "id": None,
+        "name": body.name,
+        "email": body.email.lower(),
+        "verified": True,
+        "disabled": False,
+        "hashed_password": hash_password(body.password),
+        "role": "user",
+        "created_at": now,
+        "updated_at": now,
+    }
 
-    new_user = User(**payload)
-    result = UserCollection.insert_one(user.to_json())
+    new_user = User(**new_data)
+    result = new_user.save()
+    new_user = User.find_one({"_id": result.inserted_id})
 
     if not result:
         raise HTTPException(
@@ -57,10 +64,10 @@ async def create_user(payload: CreateUserReq) -> CreateUserRes:
 
 @router.post("/login", response_model=LoginUserRes)
 async def login(
-    payload: LoginUserReq,
+    body: LoginUserReq,
 ) -> LoginUserRes:
     # Check if the user exist
-    db_user = UserCollection.find_one({"email": payload.email.lower()})
+    db_user = User.find_one({"email": body.email.lower()})
     if not db_user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -68,7 +75,7 @@ async def login(
         )
 
     # Check if the password is valid
-    user = authenticate_user(payload.email, payload.password)
+    user = authenticate_user(body.email, body.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -78,32 +85,33 @@ async def login(
     # Create access token
     access_token = create_access_token(
         email=user.email,
-        expires_time=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
+        expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
     )
 
     # Send both access
     return {"token": access_token, "user": user.to_json()}
 
 
-@router.post("/refresh")
-async def refresh_token(user: Request) -> TokenRes:
-    try:
-        token = create_access_token(
-            email=user.email,
-            expires_time=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
+@router.get("/refresh-token")
+async def refresh_token(req: Request) -> TokenRes:
+    token = get_token_from_request(req)
+    user = get_current_user(token)
+
+    token = create_access_token(
+        email=user.email,
+        expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
+    )
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="The user belonging to this token no logger exist",
         )
-        if not user:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="The user belonging to this token no logger exist",
-            )
-    except Exception as e:
-        error = e.__class__.__name__
-        if error == "MissingTokenError":
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Please provide refresh token",
-            )
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
     return {"token": token}
+
+
+@router.get("/me")
+async def get_me(req: Request):
+    token = get_token_from_request(req)
+    user = get_current_user(token)
+    return user.to_json()

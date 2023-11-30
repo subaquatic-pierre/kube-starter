@@ -1,19 +1,35 @@
-from datetime import datetime
-from pydantic import BaseModel, EmailStr, constr
+from __future__ import annotations
+from typing import List
+
+from schemas.user import UserSchema
+from bson.objectid import ObjectId
+from models.model import DBModel
 
 
-class User(BaseModel):
-    name: str
-    email: EmailStr
-    hashed_password: str
-    disabled: bool = False
-    verified: bool = False
+class User(UserSchema, DBModel):
+    @classmethod
+    def find_one(cls, data: dict) -> User | None:
+        collection = cls._get_collection()
+        item = collection.find_one(data)
+        if not item:
+            return None
 
-    role: str | None = None
-    created_at: datetime | None = None
-    updated_at: datetime | None = None
+        user = User(id=item["_id"], **item)
+        return user
 
-    def to_json(self) -> object:
-        json = self.model_dump_json()
-        del json["hashed_password"]
-        return json
+    @classmethod
+    def find_many(cls, data: dict = {}) -> List[User] | None:
+        collection = cls._get_collection()
+
+        items = collection.find(data)
+        users = [User(id=item["_id"], **item) for item in items]
+
+        return users
+
+    @staticmethod
+    def _collection_name() -> str:
+        return "users"
+
+    @staticmethod
+    def _hidden_fields() -> List[str]:
+        return ["hashed_password"]

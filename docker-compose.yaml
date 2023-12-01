@@ -1,35 +1,47 @@
 version: "3"
 
 services:
+  # WWW Frontend
+  www:
+    container_name: www-kube-starter
+    env_file:
+      - ./.env
+    build:
+      context: ./www
+      dockerfile: Dockerfile.dev
+
+    environment:
+      - ENV=$ENV
+      - PORT=$WWW_PORT
+      - HOST=$WWW_HOST
+
+    volumes:
+      - ./www:/app
+
+    ports:
+      - ${WWW_PORT}:${WWW_PORT}
+    depends_on:
+      - api
+
   # API backend
   api:
     container_name: api-kube-starter
-    env_file: .env
+    env_file:
+      - ./.env
     build:
       context: ./api
       dockerfile: Dockerfile.dev
 
     environment:
       - ENV=$ENV
-      - PORT=$PORT
-      - HOST=$HOST
-      - MONGODB_DB_NAME=$MONGODB_DB_NAME
-      - MONGODB_USER=$MONGODB_USER
-      - MONGODB_PASSWORD=$MONGODB_PASSWORD
-      - MONGODB_HOST=$MONGODB_HOST
-      - MONGODB_PORT=$MONGODB_PORT
-      - DATABASE_URL=$DATABASE_URL
-      - MONGO_INITDB_DATABASE=$MONGO_INITDB_DATABASE
-      - ACCESS_TOKEN_EXPIRE_MINUTES=$ACCESS_TOKEN_EXPIRE_MINUTES
-      - JWT_ALGORITHM=$JWT_ALGORITHM
-      - CLIENT_ORIGIN=$CLIENT_ORIGIN
-      - SECRET_KEY=$SECRET_KEY
+      - PORT=$API_PORT
+      - HOST=$API_HOST
 
     volumes:
       - ./api:/app
 
     ports:
-      - 8000:8000
+      - ${API_PORT}:${API_PORT}
     depends_on:
       - mongo
 

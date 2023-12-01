@@ -17,6 +17,6 @@ try:
 except Exception:
     print("Unable to connect to the MongoDB server.")
 
-db = client[settings.MONGO_INITDB_DATABASE]
+db = client[settings.DB_NAME]
 UserCollection = db.users
 UserCollection.create_index([("email", pymongo.ASCENDING)], unique=True)

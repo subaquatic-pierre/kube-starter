@@ -1,11 +1,11 @@
-# Kube Starter
-
-![Kube Starter Logo](.github/logo.png)
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/subaquatic-pierre/kube-starter.svg)](https://github.com/subaquatic-pierre/kube-starter/issues)
 [![GitHub stars](https://img.shields.io/github/stars/subaquatic-pierre/kube-starter.svg)](https://github.com/subaquatic-pierre/kube-starter/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/subaquatic-pierre/kube-starter.svg)](https://github.com/subaquatic-pierre/kube-starter/network)
+
+# Kube Starter
+
+![Kube Starter Logo](.github/logo.png)
 
 ## Project Overview
 

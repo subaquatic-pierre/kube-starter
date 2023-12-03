@@ -1,35 +1,30 @@
 import axios from 'axios';
-import { GET_PROFILE, GET_SPEAKERS, PROFILES } from './endpoints';
-import { UserProfile, UserRole, reduceProfile } from 'models/auth';
+import { GET_PROFILE, PROFILES } from './endpoints';
+import { UserProfile, reduceProfile } from 'models/auth';
 
-const strapiHost = process.env.NEXT_PUBLIC_STRAPI_API_URL;
-const strapiBackendHost = process.env.BACKEND_STRAPI_API_URL;
-const apiToken = process.env.DASHBOARD_STRAPI_API_TOKEN;
+const apiHost = process.env.NEXT_PUBLIC_STRAPI_API_URL;
+
+type Object = Record<string, number | string | null>;
 
 export type ApiMethod = 'POST' | 'PUT' | 'GET' | 'DELETE';
-export type StrapiResponse<Model = object> = {
+export type ApiResponse<Model = Object> = {
   data: Model;
-  error?: Partial<object & { message: string }>;
+  error?: Partial<Object & { message: string }>;
 };
-export type StrapiRequest = {
+export type ApiRequest = {
   endpoint: string;
   method?: ApiMethod;
   data?: object;
   headers?: object;
 };
 
-export const strapiReq = async <Model = object>({
-  endpoint,
-  method = 'GET',
-  data,
-  headers,
-}: StrapiRequest): Promise<StrapiResponse<Model>> => {
+export const apiReq = async <Model = object>({ endpoint, method = 'GET', data, headers }: ApiRequest): Promise<ApiResponse<Model>> => {
   try {
     const res = await axios.request({
       method: method,
-      url: `${strapiHost}${endpoint}`,
+      url: `${apiHost}${endpoint}`,
       data,
-      headers,
+      headers
     });
 
     return { data: res.data };
@@ -43,7 +38,7 @@ export const strapiReq = async <Model = object>({
     } else if (e.request) {
       return {
         data: {} as Model,
-        error: { message: `${e.request}` },
+        error: { message: `${e.request}` }
       };
     } else {
       return { data: {} as Model, error: { message: `${e}` } };
@@ -51,13 +46,13 @@ export const strapiReq = async <Model = object>({
   }
 };
 
-// Simple wrapper around strapiReq, adds JWT token to headers
-export const strapiReqWithAuth = async <Model = object>({
+// Simple wrapper around apiReq, adds JWT token to headers
+export const apiReqWithAuth = async <Model = object>({
   endpoint,
   method = 'GET',
   data,
-  headers,
-}: StrapiRequest): Promise<StrapiResponse<Model>> => {
+  headers
+}: ApiRequest): Promise<ApiResponse<Model>> => {
   const token = window.localStorage.getItem('token');
 
   if (!token) {
@@ -66,18 +61,16 @@ export const strapiReqWithAuth = async <Model = object>({
 
   const _headers = {
     ...headers,
-    Authorization: `Bearer ${token}`,
+    Authorization: `Bearer ${token}`
   };
 
-  return strapiReq({ endpoint, method, data, headers: _headers });
+  return apiReq({ endpoint, method, data, headers: _headers });
 };
 
-export const getProfiles = async (
-  endpoint = PROFILES,
-): Promise<UserProfile[]> => {
-  const res = await strapiReqWithAuth<{ data: any[] }>({
+export const getProfiles = async (endpoint = PROFILES): Promise<UserProfile[]> => {
+  const res = await apiReqWithAuth<{ data: any[] }>({
     method: 'GET',
-    endpoint: endpoint,
+    endpoint: endpoint
   });
 
   const profiles = [];
@@ -94,9 +87,9 @@ export const getProfiles = async (
 };
 
 export const getProfile = async (id: string): Promise<UserProfile> => {
-  const res = await strapiReqWithAuth<{ data: any }>({
+  const res = await apiReqWithAuth<{ data: any }>({
     method: 'GET',
-    endpoint: GET_PROFILE(id),
+    endpoint: GET_PROFILE(id)
   });
 
   const data = res.data.data;
@@ -106,46 +99,4 @@ export const getProfile = async (id: string): Promise<UserProfile> => {
     return profile;
   }
   return null;
-};
-
-export const strapiReqWithApiToken = async <Model = object>({
-  endpoint,
-  method = 'GET',
-  data,
-  headers,
-}: StrapiRequest): Promise<StrapiResponse<Model>> => {
-  const _headers = {
-    ...headers,
-    Authorization: `bearer ${apiToken}`,
-  };
-
-  const res = await axios.request({
-    method: method,
-    url: `${strapiBackendHost}${endpoint}`,
-    data,
-    headers: _headers,
-  });
-
-  return res;
-};
-
-export const strapiReqFromDashWithToken = async <Model = object>({
-  endpoint,
-  method = 'GET',
-  data,
-  headers,
-}: StrapiRequest): Promise<StrapiResponse<Model>> => {
-  const _headers = {
-    ...headers,
-    Authorization: `bearer ${apiToken}`,
-  };
-
-  const res = await axios.request({
-    method: method,
-    url: `${strapiBackendHost}${endpoint}`,
-    data,
-    headers: _headers,
-  });
-
-  return res;
 };

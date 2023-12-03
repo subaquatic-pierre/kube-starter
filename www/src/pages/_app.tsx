@@ -3,11 +3,6 @@ import { ReactElement, ReactNode } from 'react';
 // scroll bar
 import 'simplebar/dist/simplebar.css';
 
-// apex-chart
-import 'styles/apex-chart.css';
-import 'styles/react-table.css';
-import 'styles/showcounter.css';
-
 // next
 import { NextPage } from 'next';
 import type { AppProps } from 'next/app';

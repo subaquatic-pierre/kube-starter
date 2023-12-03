@@ -20,9 +20,9 @@ const defaultPalette = {
   cardShadow: 'rgba(23, 70, 161, .11)',
   mode: 'light' as PaletteMode,
   primary: {
-    main: '#2c547c',
-    light: '#809BB7',
-    dark: '#274666',
+    main: '#64acbc',
+    light: '#64acbc',
+    dark: '#64acbc',
     contrastText: '#fff'
   },
   secondary: {

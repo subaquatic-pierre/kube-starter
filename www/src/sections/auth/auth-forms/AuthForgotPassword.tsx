@@ -2,15 +2,7 @@
 import { useRouter } from 'next/router';
 
 // material-ui
-import {
-  Button,
-  FormHelperText,
-  Grid,
-  InputLabel,
-  OutlinedInput,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Button, FormHelperText, Grid, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material';
 
 // third party
 import * as Yup from 'yup';
@@ -23,7 +15,7 @@ import useScriptRef from 'hooks/useScriptRef';
 import { dispatch } from 'store';
 import { openSnackbar } from 'store/reducers/snackbar';
 import axios from 'axios';
-import { strapiReq } from 'lib/api';
+import { apiReq } from 'lib/api';
 import { forgotPassword, resetPassword } from 'lib/auth';
 
 // ============================|| FIREBASE - FORGOT PASSWORD ||============================ //
@@ -37,13 +29,10 @@ const AuthForgotPassword = () => {
       <Formik
         initialValues={{
           email: '',
-          submit: null,
+          submit: null
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string()
-            .email('Must be a valid email')
-            .max(255)
-            .required('Email is required'),
+          email: Yup.string().email('Must be a valid email').max(255).required('Email is required')
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
@@ -59,10 +48,10 @@ const AuthForgotPassword = () => {
                 message: 'Check mail for reset password link',
                 variant: 'alert',
                 alert: {
-                  color: 'success',
+                  color: 'success'
                 },
-                close: false,
-              }),
+                close: false
+              })
             );
           } catch (err: any) {
             if (scriptedRef.current) {
@@ -73,15 +62,7 @@ const AuthForgotPassword = () => {
           }
         }}
       >
-        {({
-          errors,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-          isSubmitting,
-          touched,
-          values,
-        }) => (
+        {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
@@ -108,28 +89,15 @@ const AuthForgotPassword = () => {
               </Grid>
               {errors.submit && (
                 <Grid item xs={12}>
-                  <FormHelperText error>
-                    {errors.submit as string}
-                  </FormHelperText>
+                  <FormHelperText error>{errors.submit as string}</FormHelperText>
                 </Grid>
               )}
               <Grid item xs={12} sx={{ mb: -2 }}>
-                <Typography variant="caption">
-                  If you haven't received the email, please check your Spam/Junk
-                  folder.
-                </Typography>
+                <Typography variant="caption">If you haven't received the email, please check your Spam/Junk folder.</Typography>
               </Grid>
               <Grid item xs={12}>
                 <AnimateButton>
-                  <Button
-                    disableElevation
-                    disabled={isSubmitting}
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                  >
+                  <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
                     Send Password Reset Email
                   </Button>
                 </AnimateButton>

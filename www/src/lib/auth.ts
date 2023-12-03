@@ -1,12 +1,6 @@
-import { StrapiResponse, strapiReq, strapiReqWithAuth } from 'lib/api';
+import { ApiResponse, apiReq, apiReqWithAuth } from 'lib/api';
 import { generateId } from 'lib/utils';
-import {
-  EMAIL_CONFIRMATION,
-  FORGOT_PASSWORD,
-  LOGIN,
-  REGISTER,
-  RESET_PASSWORD,
-} from 'lib/endpoints';
+import { EMAIL_CONFIRMATION, FORGOT_PASSWORD, LOGIN, REGISTER, RESET_PASSWORD } from 'lib/endpoints';
 import { User } from 'models/auth';
 import { setTokenInStorage } from 'utils/jwt';
 
@@ -31,72 +25,59 @@ type RegisterResponse = {
   };
 };
 
-export const login = async ({
-  email,
-  password,
-}: LoginArgs): Promise<StrapiResponse<LoginResponse>> => {
+export const login = async ({ email, password }: LoginArgs): Promise<ApiResponse<LoginResponse>> => {
   const data = {
     identifier: email,
-    password,
+    password
   };
-  return strapiReq<LoginResponse>({ endpoint: LOGIN, method: 'POST', data });
+  return apiReq<LoginResponse>({ endpoint: LOGIN, method: 'POST', data });
 };
 
-export const forgotPassword = async ({
-  email,
-}: ForgotPasswordArgs): Promise<StrapiResponse> => {
+export const forgotPassword = async ({ email }: ForgotPasswordArgs): Promise<ApiResponse> => {
   const data = {
-    email: email,
+    email: email
   };
 
-  return strapiReq({
+  return apiReq({
     endpoint: FORGOT_PASSWORD,
     method: 'POST',
-    data,
+    data
   });
 };
 
-export const resetPassword = async ({
-  code,
-  password,
-  passwordConfirmation,
-}: ResetPasswordArgs): Promise<StrapiResponse> => {
+export const resetPassword = async ({ code, password, passwordConfirmation }: ResetPasswordArgs): Promise<ApiResponse> => {
   const data = {
     code,
     password,
-    passwordConfirmation,
+    passwordConfirmation
   };
 
-  return strapiReq({
+  return apiReq({
     endpoint: RESET_PASSWORD,
     method: 'POST',
-    data,
+    data
   });
 };
 
-export const register = async ({
-  email,
-  password,
-  speaker,
-}: LoginArgs): Promise<StrapiResponse<RegisterResponse>> => {
+export const register = async ({ email, password, speaker }: LoginArgs): Promise<ApiResponse<RegisterResponse>> => {
   const data = {
     username: generateId(),
     email: email,
     password,
-    speaker,
+    speaker
   };
-  return strapiReq({ endpoint: REGISTER, method: 'POST', data });
+  return apiReq({ endpoint: REGISTER, method: 'POST', data });
 };
 
-export const logout = async (): Promise<StrapiResponse> => {
+export const logout = async (): Promise<ApiResponse> => {
   setTokenInStorage(null);
   return { data: {} };
 };
 
 export const sendConfirmationEmail = async (email: string) => {
-  return await strapiReqWithAuth({
+  return await apiReqWithAuth({
     endpoint: EMAIL_CONFIRMATION,
     method: 'POST',
-    data: { email },
+    data: { email }
   });
 };

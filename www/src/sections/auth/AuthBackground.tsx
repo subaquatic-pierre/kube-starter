@@ -16,7 +16,7 @@ const AuthBackground = () => {
       sx={{
         display: { xs: 'none', md: 'block' },
         position: 'absolute',
-        filter: 'blur(2px)',
+        // filter: 'blur(2px)',
         zIndex: -1,
         right: 100,
         bottom: 100
@@ -28,7 +28,7 @@ const AuthBackground = () => {
       <Image
         src={`${basePath}/images/tech-rings.svg`}
         style={{
-          filter: 'opacity(0.5) drop-shadow(0 0 0 blue)'
+          filter: 'opacity(0.5) hue(20%)'
         }}
         alt="authBg"
         height={800}

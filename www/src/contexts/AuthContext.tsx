@@ -2,20 +2,9 @@ import { createContext, ReactNode, useEffect, useState } from 'react';
 
 // project import
 import { sleep } from 'utils/sleep';
-import {
-  JWTToken,
-  User,
-  UserProfile,
-  UserRole,
-  UserRoleEnum,
-} from 'models/auth';
-import {
-  getTokenFromStorage,
-  isTokenExpired,
-  parseToken,
-  setTokenInStorage,
-} from 'utils/jwt';
-import { strapiReq } from 'lib/api';
+import { JWTToken, User, UserProfile, UserRole, UserRoleEnum } from 'models/auth';
+import { getTokenFromStorage, isTokenExpired, parseToken, setTokenInStorage } from 'utils/jwt';
+import { apiReq } from 'lib/api';
 import { PROFILE, USER } from 'lib/endpoints';
 import { dispatch, useSelector } from 'store';
 import { openSnackbar } from 'store/reducers/snackbar';
@@ -41,7 +30,7 @@ const initialState: AuthContextProps = {
   user: {} as User,
   profile: {} as UserProfile,
   setLoading: (state: boolean) => {},
-  reloadProfile: () => {},
+  reloadProfile: () => {}
 };
 
 // ==============================|| CONFIG CONTEXT & PROVIDER ||============================== //
@@ -69,17 +58,17 @@ function AuthContextProvider({ children }: ConfigProviderProps) {
       ...old,
       role: null,
       loading: false,
-      error: `${e}`,
+      error: `${e}`
     }));
   };
 
   const getUser = async (token: JWTToken): Promise<User | null> => {
     try {
       const headers = {
-        Authorization: `Bearer ${token.str}`,
+        Authorization: `Bearer ${token.str}`
       };
 
-      const res = await strapiReq<User>({ endpoint: USER, headers });
+      const res = await apiReq<User>({ endpoint: USER, headers });
 
       if (res.error) {
         setError(res.error);
@@ -95,10 +84,10 @@ function AuthContextProvider({ children }: ConfigProviderProps) {
   const getProfile = async (token: JWTToken): Promise<UserProfile | null> => {
     try {
       const headers = {
-        Authorization: `Bearer ${token.str}`,
+        Authorization: `Bearer ${token.str}`
       };
 
-      const res = await strapiReq<UserProfile>({ endpoint: PROFILE, headers });
+      const res = await apiReq<UserProfile>({ endpoint: PROFILE, headers });
 
       const status = getProfileStatus(res.data);
       res.data['status'] = status;
@@ -164,7 +153,7 @@ function AuthContextProvider({ children }: ConfigProviderProps) {
           loading: false,
           role: role as UserRoleEnum,
           user,
-          profile,
+          profile
         }));
       } catch (e) {
         setTokenInStorage(null);
@@ -172,7 +161,7 @@ function AuthContextProvider({ children }: ConfigProviderProps) {
     } else {
       setAuthState((old) => ({
         ...old,
-        loading: false,
+        loading: false
       }));
       setTokenInStorage(null);
 
@@ -188,10 +177,10 @@ function AuthContextProvider({ children }: ConfigProviderProps) {
           message: authState.error,
           variant: 'alert',
           alert: {
-            color: 'error',
+            color: 'error'
           },
-          close: false,
-        }),
+          close: false
+        })
       );
     }
   }, [authState.error]);
@@ -210,7 +199,7 @@ function AuthContextProvider({ children }: ConfigProviderProps) {
       value={{
         ...authState,
         setLoading,
-        reloadProfile,
+        reloadProfile
       }}
     >
       {children}

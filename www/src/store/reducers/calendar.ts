@@ -9,16 +9,13 @@ import { dispatch } from 'store';
 
 // types
 import { CalendarProps } from '../../types/calendar';
-import { strapiReqWithAuth } from 'lib/api';
-import {
-  CALENDAR_EVENTS,
-  CALENDAR_EVENTS_POPULATE_SPEAKER,
-} from 'lib/endpoints';
+import { apiReqWithAuth } from 'lib/api';
+import { CALENDAR_EVENTS, CALENDAR_EVENTS_POPULATE_SPEAKER } from 'lib/endpoints';
 
 const reduceCreateEventAttrs = (data: { data }): EventInput => {
   const event = {
     id: data.data.id,
-    ...data.data.attributes,
+    ...data.data.attributes
   };
 
   console.log('reduceCreateEventAttrs', data);
@@ -28,7 +25,7 @@ const reduceCreateEventAttrs = (data: { data }): EventInput => {
 const reduceEventAttrs = (data: any): EventInput => {
   const event = {
     id: data.id,
-    ...data.attributes,
+    ...data.attributes
   };
 
   return event;
@@ -63,7 +60,7 @@ const initialState: CalendarProps = {
   isLoader: false,
   isModalOpen: false,
   selectedEventId: null,
-  selectedRange: null,
+  selectedRange: null
 };
 
 // ==============================|| CALENDAR - SLICE ||============================== //
@@ -148,21 +145,20 @@ const calendar = createSlice({
         state.selectedEventId = null;
         state.selectedRange = null;
       }
-    },
-  },
+    }
+  }
 });
 
 export default calendar.reducer;
 
-export const { selectEvent, toggleModal, updateCalendarView } =
-  calendar.actions;
+export const { selectEvent, toggleModal, updateCalendarView } = calendar.actions;
 
 export function getEvents() {
   return async () => {
     dispatch(calendar.actions.loading());
 
-    const res = await strapiReqWithAuth({
-      endpoint: CALENDAR_EVENTS_POPULATE_SPEAKER,
+    const res = await apiReqWithAuth({
+      endpoint: CALENDAR_EVENTS_POPULATE_SPEAKER
     });
 
     if (res.error) {
@@ -177,10 +173,10 @@ export function createEvent(newEvent: Omit<EventInput, 'id'>) {
   return async () => {
     dispatch(calendar.actions.loading());
 
-    const res = await strapiReqWithAuth({
+    const res = await apiReqWithAuth({
       endpoint: CALENDAR_EVENTS_POPULATE_SPEAKER,
       method: 'POST',
-      data: { data: newEvent },
+      data: { data: newEvent }
     });
 
     if (res.error) {
@@ -198,15 +194,15 @@ export function updateEvent(
     start: Date | null;
     end: Date | null;
     title: string | null;
-  }>,
+  }>
 ) {
   return async () => {
     dispatch(calendar.actions.loading());
 
-    const res = await strapiReqWithAuth({
+    const res = await apiReqWithAuth({
       endpoint: `${CALENDAR_EVENTS}/${eventId}`,
       method: 'PUT',
-      data: { data: event },
+      data: { data: event }
     });
 
     if (res.error) {
@@ -221,9 +217,9 @@ export function deleteEvent(eventId: string) {
   return async () => {
     dispatch(calendar.actions.loading());
 
-    const res = await strapiReqWithAuth({
+    const res = await apiReqWithAuth({
       endpoint: `${CALENDAR_EVENTS}/${eventId}`,
-      method: 'DELETE',
+      method: 'DELETE'
     });
 
     if (res.error) {
@@ -239,8 +235,8 @@ export function selectRange(start: Date, end: Date) {
     dispatch(
       calendar.actions.selectRange({
         start: start.getTime(),
-        end: end.getTime(),
-      }),
+        end: end.getTime()
+      })
     );
   };
 }

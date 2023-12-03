@@ -22,7 +22,7 @@ import {
   OutlinedInput,
   Stack,
   Typography,
-  CircularProgress,
+  CircularProgress
 } from '@mui/material';
 
 // third party
@@ -30,7 +30,7 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 
 // project import
-import { APP_ADMIN_DEFAULT_PATH, APP_USER_DEFAULT_PATH } from 'config';
+import { APP_ADMIN_DEFAULT_PATH } from 'config';
 import IconButton from 'components/@extended/IconButton';
 import AnimateButton from 'components/@extended/AnimateButton';
 
@@ -46,9 +46,6 @@ import useAuth from 'hooks/useAuth';
 const AuthLogin = () => {
   const { setLoading, loading } = useAuth();
   const router = useRouter();
-  const matchDownSM = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down('sm'),
-  );
   const [checked, setChecked] = React.useState(false);
   const [capsWarning, setCapsWarning] = React.useState(false);
 
@@ -69,13 +66,10 @@ const AuthLogin = () => {
     }
   };
 
-  const handleSubmit = async (
-    values: any,
-    { setErrors, setSubmitting }: any,
-  ): Promise<any> => {
+  const handleSubmit = async (values: any, { setErrors, setSubmitting }: any): Promise<any> => {
     const res = await login({
       email: values.email,
-      password: values.password,
+      password: values.password
     });
 
     if (res.error) {
@@ -89,12 +83,8 @@ const AuthLogin = () => {
         setTokenInStorage(token);
       }
       setSubmitting(false);
-      const lowerCaseUsername = res.data.user?.username.toLowerCase() ?? '';
-      const redirectPath = lowerCaseUsername.includes('admin')
-        ? APP_ADMIN_DEFAULT_PATH
-        : APP_USER_DEFAULT_PATH;
 
-      router.push({ pathname: redirectPath, query: router.query });
+      router.push({ pathname: APP_ADMIN_DEFAULT_PATH, query: router.query });
     }
   };
 
@@ -104,26 +94,15 @@ const AuthLogin = () => {
         initialValues={{
           email: '',
           password: '',
-          submit: null,
+          submit: null
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string()
-            .email('Must be a valid email')
-            .max(255)
-            .required('Email is required'),
-          password: Yup.string().max(255).required('Password is required'),
+          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+          password: Yup.string().max(255).required('Password is required')
         })}
         onSubmit={handleSubmit}
       >
-        {({
-          errors,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-          isSubmitting,
-          touched,
-          values,
-        }) => (
+        {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit}>
             {/* <input name="csrfToken" type="hidden" defaultValue={csrfToken} /> */}
             <Grid container spacing={3}>
@@ -142,10 +121,7 @@ const AuthLogin = () => {
                     error={Boolean(touched.email && errors.email)}
                   />
                   {touched.email && errors.email && (
-                    <FormHelperText
-                      error
-                      id="standard-weight-helper-text-email-login"
-                    >
+                    <FormHelperText error id="standard-weight-helper-text-email-login">
                       {errors.email as string}
                     </FormHelperText>
                   )}
@@ -177,30 +153,19 @@ const AuthLogin = () => {
                           edge="end"
                           color="secondary"
                         >
-                          {showPassword ? (
-                            <EyeOutlined />
-                          ) : (
-                            <EyeInvisibleOutlined />
-                          )}
+                          {showPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
                         </IconButton>
                       </InputAdornment>
                     }
                     placeholder="Enter password"
                   />
                   {capsWarning && (
-                    <Typography
-                      variant="caption"
-                      sx={{ color: 'warning.main' }}
-                      id="warning-helper-text-password-login"
-                    >
+                    <Typography variant="caption" sx={{ color: 'warning.main' }} id="warning-helper-text-password-login">
                       Caps lock on!
                     </Typography>
                   )}
                   {touched.password && errors.password && (
-                    <FormHelperText
-                      error
-                      id="standard-weight-helper-text-password-login"
-                    >
+                    <FormHelperText error id="standard-weight-helper-text-password-login">
                       {errors.password as string}
                     </FormHelperText>
                   )}
@@ -208,12 +173,7 @@ const AuthLogin = () => {
               </Grid>
 
               <Grid item xs={12} sx={{ mt: -1 }}>
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  spacing={2}
-                >
+                <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -224,9 +184,7 @@ const AuthLogin = () => {
                         size="small"
                       />
                     }
-                    label={
-                      <Typography variant="h6">Keep me sign in</Typography>
-                    }
+                    label={<Typography variant="h6">Keep me sign in</Typography>}
                   />
                   <NextLink href={'/forgot-password'} passHref legacyBehavior>
                     <Link variant="h6" color="text.primary">
@@ -237,9 +195,7 @@ const AuthLogin = () => {
               </Grid>
               {errors.submit && (
                 <Grid item xs={12}>
-                  <FormHelperText error>
-                    {errors.submit as string}
-                  </FormHelperText>
+                  <FormHelperText error>{errors.submit as string}</FormHelperText>
                 </Grid>
               )}
               <Grid item xs={12}>

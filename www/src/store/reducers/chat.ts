@@ -7,13 +7,8 @@ import { dispatch } from '../index';
 
 // types
 import { ChatStateProps } from 'types/chat';
-import { strapiReqWithAuth } from 'lib/api';
-import {
-  CREATE_MESSAGE,
-  GET_MESSAGES,
-  GET_USERS,
-  GET_ADMINS,
-} from 'lib/endpoints';
+import { apiReqWithAuth } from 'lib/api';
+import { CREATE_MESSAGE, GET_MESSAGES, GET_USERS, GET_ADMINS } from 'lib/endpoints';
 import { UserProfile } from 'models/auth';
 import { blankProfile, chatContactUser } from 'utils/blankData';
 import { Message, reduceMessage, reduceMessages } from 'models/message';
@@ -24,7 +19,7 @@ const initialState: ChatStateProps = {
   error: null,
   chats: [],
   user: blankProfile as UserProfile,
-  users: [],
+  users: []
 };
 
 const chat = createSlice({
@@ -79,8 +74,8 @@ const chat = createSlice({
     insertMessageSuccess(state, action) {
       state.chats = [...state.chats, action.payload];
       // state.users = action.payload;
-    },
-  },
+    }
+  }
 });
 
 // Reducer
@@ -96,7 +91,7 @@ const sortUsers = (users: UserProfile[]) => {
 };
 
 const removeAdminsFromUsers = async (users: UserProfile[]) => {
-  const res = await strapiReqWithAuth<{
+  const res = await apiReqWithAuth<{
     data: {
       superAdmins: UserProfile[];
       memberAdmins: UserProfile[];
@@ -104,7 +99,7 @@ const removeAdminsFromUsers = async (users: UserProfile[]) => {
     };
   }>({
     endpoint: GET_ADMINS,
-    method: 'GET',
+    method: 'GET'
   });
 
   const adminIds = [];
@@ -141,44 +136,33 @@ const getUsersFromMessages = (messages: Message[]): UserProfile[] => {
     }
   }
 
-  const filtered = users.filter(
-    (value, index, self) => index === self.findIndex((t) => t.id === value.id),
-  );
+  const filtered = users.filter((value, index, self) => index === self.findIndex((t) => t.id === value.id));
 
   return filtered;
 };
 
 export function getAllMessages(endpoint = GET_MESSAGES) {
   return async () => {
-    const res = await strapiReqWithAuth({
+    const res = await apiReqWithAuth({
       endpoint: endpoint,
-      method: 'GET',
+      method: 'GET'
     });
 
     const messages = reduceMessages(res);
 
     try {
       if (res.error) {
-        dispatch(
-          chat.actions.hasError('There was an error fetching all messages'),
-        );
+        dispatch(chat.actions.hasError('There was an error fetching all messages'));
       } else {
         dispatch(chat.actions.getUserChatsSuccess(messages));
       }
     } catch (e) {
-      dispatch(
-        chat.actions.hasError('There was an error fetching all messages'),
-      );
+      dispatch(chat.actions.hasError('There was an error fetching all messages'));
     }
   };
 }
 
-export function insertChat(
-  fromUserId: number,
-  toUserId: number,
-  content: string,
-  dummyMsg?: Message,
-) {
+export function insertChat(fromUserId: number, toUserId: number, content: string, dummyMsg?: Message) {
   return async () => {
     // if is dummy message only append to state, no api call
     if (dummyMsg) {
@@ -189,27 +173,23 @@ export function insertChat(
         content,
         isContactMessage: false,
         fromUser: fromUserId,
-        toUser: toUserId,
+        toUser: toUserId
       };
-      const res = await strapiReqWithAuth<{ data: any }>({
+      const res = await apiReqWithAuth<{ data: any }>({
         endpoint: CREATE_MESSAGE,
         method: 'POST',
-        data: { data },
+        data: { data }
       });
 
       try {
         const message = reduceMessage(res.data.data);
         if (res.error) {
-          dispatch(
-            chat.actions.hasError('There was an error inserting chat message'),
-          );
+          dispatch(chat.actions.hasError('There was an error inserting chat message'));
         } else {
           dispatch(chat.actions.insertMessageSuccess(message));
         }
       } catch (e) {
-        dispatch(
-          chat.actions.hasError('There was an error inserting chat message'),
-        );
+        dispatch(chat.actions.hasError('There was an error inserting chat message'));
       }
     }
   };
@@ -217,9 +197,9 @@ export function insertChat(
 
 export function getUsers() {
   return async () => {
-    const res = await strapiReqWithAuth({
+    const res = await apiReqWithAuth({
       endpoint: GET_MESSAGES,
-      method: 'GET',
+      method: 'GET'
     });
 
     if (res.error) {

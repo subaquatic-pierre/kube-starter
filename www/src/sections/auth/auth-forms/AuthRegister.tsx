@@ -76,7 +76,6 @@ const AuthRegister: React.FC<Props> = ({ formik, submitErrors, value }) => {
     <Grid container spacing={3}>
       <Grid item xs={12}>
         <Stack spacing={1}>
-          <Typography alignSelf={'center'}>{dict.usePersonalEmail}</Typography>
           <InputLabel htmlFor="email-login">{dict.emailAddress}</InputLabel>
           <OutlinedInput
             id="email-login"
@@ -154,38 +153,6 @@ const AuthRegister: React.FC<Props> = ({ formik, submitErrors, value }) => {
           </Grid>
         </FormControl>
       </Grid>
-
-      {/* <Grid item xs={12} sx={{ mt: -1 }}>
-        <GoogleReCaptchaProvider reCaptchaKey="6Lcz7YkoAAAAAC4ziRXiavm_KnHaMpfZbyb3ozIf">
-          <GoogleReCaptcha onVerify={() => {}} refreshReCaptcha={change} />
-        </GoogleReCaptchaProvider>
-      </Grid> */}
-      {/* <Grid item xs={12} sx={{ mt: -1 }}>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          spacing={2}
-        >
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={checked}
-                onChange={(event) => setChecked(event.target.checked)}
-                name="checked"
-                color="primary"
-                size="small"
-              />
-            }
-            label={
-              <Typography variant="h6">I Agree to Terms of service</Typography>
-            }
-          />
-          <Link href={'/terms-of-service'} passHref legacyBehavior>
-            Terms of Service
-          </Link>
-        </Stack>
-      </Grid> */}
 
       {submitErrors.submit && (
         <Grid item xs={12}>

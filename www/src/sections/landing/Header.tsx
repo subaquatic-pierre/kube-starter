@@ -46,11 +46,7 @@ const HeaderPage = () => {
                     lineHeight: { xs: 1.3, sm: 1.3, md: 1.3 }
                   }}
                 >
-                  <span>Carefully Crafted for your </span>
-                  <Box component="span" sx={{ color: theme.palette.primary.main }}>
-                    <span>Caring React </span>
-                  </Box>
-                  <span>Project</span>
+                  Igniting the Future of Software Engineering
                 </Typography>
               </motion.div>
             </Grid>
@@ -75,7 +71,8 @@ const HeaderPage = () => {
                     lineHeight: { xs: 1.4, md: 1.4 }
                   }}
                 >
-                  Mantis React is a blazing-fast dashboard template built using the MUI React library.
+                  Unleash Innovation in the Cosmos of Code with Cutting-Edge Cloud Solutions. Your Journey to Limitless Possibilities Begins
+                  Here.
                 </Typography>
               </motion.div>
             </Grid>
@@ -93,43 +90,19 @@ const HeaderPage = () => {
                 <Grid container spacing={2} sx={{ justifyContent: { xs: 'center', md: 'flex-start' } }}>
                   <Grid item>
                     <AnimateButton>
-                      <NextLink href="/components-overview/buttons" passHref legacyBehavior>
-                        <Button size="large" color="primary" variant="outlined" component={Link} target="_blank">
-                          Explore Components
-                        </Button>
-                      </NextLink>
-                    </AnimateButton>
-                  </Grid>
-                  <Grid item>
-                    <AnimateButton>
                       <Button
-                        component={Link}
+                        component={NextLink}
                         href="/login"
-                        target="_blank"
                         size="large"
                         color="primary"
                         variant="contained"
                         startIcon={<EyeOutlined style={{ fontSize: '1.15rem' }} />}
                       >
-                        Live Preview
+                        Login
                       </Button>
                     </AnimateButton>
                   </Grid>
                 </Grid>
-              </motion.div>
-            </Grid>
-            <Grid item xs={12}>
-              <motion.div
-                initial={{ opacity: 0, translateY: 550 }}
-                animate={{ opacity: 1, translateY: 0 }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 150,
-                  damping: 30,
-                  delay: 0.6
-                }}
-              >
-                <Image src={headertechimg} alt="Mantis" width={223} height={49} style={{ zIndex: 9 }} />
               </motion.div>
             </Grid>
           </Grid>

@@ -192,40 +192,6 @@ items:
             }
           });
 
-  #  --- SECRET ---
-
-  - apiVersion: v1
-    kind: Secret
-    metadata:
-      name: mongodb-secret
-      namespace: kube-starter
-    type: Opaque
-    data:
-      MONGO_ROOT_USERNAME: BASE_64_SECRET
-      MONGO_ROOT_PASSWORD: BASE_64_SECRET
-      MONGO_USERNAME: BASE_64_SECRET
-      MONGO_PASSWORD: BASE_64_SECRET
-      MONGO_USERS_LIST: BASE_64_SECRET
-
-  # --- SERVICE ---
-
-  - apiVersion: v1
-    kind: Service
-    metadata:
-      namespace: kube-starter
-      name: kube-starter-mongodb
-      labels:
-        app: kube-starter-mongodb-svc
-    spec:
-      type: NodePort
-      selector:
-        app: kube-starter-mongodb
-
-      ports:
-        - port: 27017
-          targetPort: 27017
-          nodePort: 31706
-
 kind: List
 metadata:
   resourceVersion: ""

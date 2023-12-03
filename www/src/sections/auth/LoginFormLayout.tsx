@@ -7,10 +7,9 @@ import { Box, Grid } from '@mui/material';
 import AuthCard from './AuthCard';
 import AuthBackground from './AuthBackground';
 import AuthFooter from 'components/cards/AuthFooter';
-import Logo from 'components/logo';
+import Logo from 'components/Logo';
 import { useRouter } from 'next/router';
 import { WEBSITE_URL } from 'utils/const';
-import LanguageSelect from 'components/LanguageSelect';
 
 interface Props {
   children: ReactNode;
@@ -21,14 +20,13 @@ interface Props {
 const LoginFormLayout = ({ children }: Props) => {
   return (
     <Box sx={{ minHeight: '100vh' }}>
-      <LanguageSelect fixed />
       <AuthBackground />
       <Grid
         container
         direction="column"
         justifyContent="flex-end"
         sx={{
-          minHeight: '100vh',
+          minHeight: '100vh'
         }}
       >
         <Grid item xs={12} sx={{ ml: 3, mt: 3 }}>
@@ -45,8 +43,8 @@ const LoginFormLayout = ({ children }: Props) => {
               minHeight: {
                 xs: 'calc(100vh - 210px)',
                 sm: 'calc(100vh - 134px)',
-                md: 'calc(100vh - 112px)',
-              },
+                md: 'calc(100vh - 112px)'
+              }
             }}
           >
             <Grid item>

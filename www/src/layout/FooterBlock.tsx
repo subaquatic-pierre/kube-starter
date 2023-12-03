@@ -109,22 +109,6 @@ const FooterBlock = ({ isFull }: showProps) => {
             }
           }}
         >
-          <CardMedia
-            component="img"
-            image={`assets/images/landing/img-footer-${presetColor}.png`}
-            sx={{
-              display: { xs: 'none', md: 'block' },
-              width: '55%',
-              maxWidth: 700,
-              position: 'absolute',
-              top: '-28%',
-              right: 0,
-              ...(theme.direction === ThemeDirection.RTL && {
-                transform: 'scaleX(-1)',
-                float: 'none'
-              })
-            }}
-          />
           <Container>
             <Grid container alignItems="center" justifyContent="space-between" spacing={2}>
               <Grid item xs={12} md={6} sx={{ position: 'relative', zIndex: 1 }}>

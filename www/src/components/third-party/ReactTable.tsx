@@ -1,11 +1,4 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-  ReactNode,
-  Ref,
-} from 'react';
+import React, { forwardRef, useEffect, useRef, useState, ReactNode, Ref } from 'react';
 
 // material-ui
 import { styled, useTheme, Theme } from '@mui/material/styles';
@@ -26,40 +19,21 @@ import {
   TableRow,
   TextField,
   Tooltip,
-  Typography,
+  Typography
 } from '@mui/material';
 
 // third-party
 import { CSVLink } from 'react-csv';
-// import { Headers } from 'react-csv/components/CommonPropTypes';
-import {
-  Column,
-  ColumnInstance,
-  HeaderGroup,
-  Row,
-  SortingRule,
-} from 'react-table';
+import { Headers } from 'react-csv/components/CommonPropTypes';
+import { Column, ColumnInstance, HeaderGroup, Row, SortingRule } from 'react-table';
 import { getEmptyImage } from 'react-dnd-html5-backend';
-import {
-  useDrop,
-  useDrag,
-  useDragLayer,
-  DragLayerMonitor,
-  DropTargetMonitor,
-} from 'react-dnd';
+import { useDrop, useDrag, useDragLayer, DragLayerMonitor, DropTargetMonitor } from 'react-dnd';
 
 // types
 import { ThemeMode } from 'types/config';
 
 // assets
-import {
-  CaretUpOutlined,
-  CaretDownOutlined,
-  DragOutlined,
-  CheckOutlined,
-  DownloadOutlined,
-} from '@ant-design/icons';
-import { useRouter } from 'next/router';
+import { CaretUpOutlined, CaretDownOutlined, DragOutlined, CheckOutlined, DownloadOutlined } from '@ant-design/icons';
 
 // ==============================|| SORT HEADER ||============================== //
 
@@ -75,28 +49,18 @@ export const HeaderSort = ({ column, sort }: HeaderSortProps) => {
     <Stack direction="row" spacing={1} alignItems="center">
       <Box sx={{ width: 'max-content' }}>{column.render('Header')}</Box>
       {!column.disableSortBy && (
-        <Stack
-          sx={{ color: 'secondary.light' }}
-          {...(sort && {
-            ...column.getHeaderProps(column.getSortByToggleProps()),
-          })}
-        >
+        <Stack sx={{ color: 'secondary.light' }} {...(sort && { ...column.getHeaderProps(column.getSortByToggleProps()) })}>
           <CaretUpOutlined
             style={{
               fontSize: '0.625rem',
-              color:
-                column.isSorted && !column.isSortedDesc
-                  ? theme.palette.text.secondary
-                  : 'inherit',
+              color: column.isSorted && !column.isSortedDesc ? theme.palette.text.secondary : 'inherit'
             }}
           />
           <CaretDownOutlined
             style={{
               fontSize: '0.625rem',
               marginTop: -2,
-              color: column.isSortedDesc
-                ? theme.palette.text.secondary
-                : 'inherit',
+              color: column.isSortedDesc ? theme.palette.text.secondary : 'inherit'
             }}
           />
         </Stack>
@@ -115,13 +79,7 @@ interface TablePaginationProps {
   rows: Row[];
 }
 
-export const TablePagination = ({
-  gotoPage,
-  rows,
-  setPageSize,
-  pageSize,
-  pageIndex,
-}: TablePaginationProps) => {
+export const TablePagination = ({ gotoPage, rows, setPageSize, pageSize, pageIndex }: TablePaginationProps) => {
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
@@ -132,10 +90,7 @@ export const TablePagination = ({
     setOpen(true);
   };
 
-  const handleChangePagination = (
-    event: React.ChangeEvent<unknown>,
-    value: number,
-  ) => {
+  const handleChangePagination = (event: React.ChangeEvent<unknown>, value: number) => {
     gotoPage(value - 1);
   };
 
@@ -144,12 +99,7 @@ export const TablePagination = ({
   };
 
   return (
-    <Grid
-      container
-      alignItems="center"
-      justifyContent="space-between"
-      sx={{ width: 'auto' }}
-    >
+    <Grid container alignItems="center" justifyContent="space-between" sx={{ width: 'auto' }}>
       <Grid item>
         <Stack direction="row" spacing={1} alignItems="center">
           <Stack direction="row" spacing={1} alignItems="center">
@@ -186,9 +136,7 @@ export const TablePagination = ({
               const page = e.target.value ? Number(e.target.value) : 0;
               gotoPage(page - 1);
             }}
-            sx={{
-              '& .MuiOutlinedInput-input': { py: 0.75, px: 1.25, width: 36 },
-            }}
+            sx={{ '& .MuiOutlinedInput-input': { py: 0.75, px: 1.25, width: 36 } }}
           />
         </Stack>
       </Grid>
@@ -209,16 +157,12 @@ export const TablePagination = ({
 
 // ==============================|| SELECTION - PREVIEW ||============================== //
 
-export const IndeterminateCheckbox = forwardRef(
-  ({ indeterminate, ...rest }: { indeterminate: boolean }, ref: Ref<any>) => {
-    const defaultRef = useRef();
-    const resolvedRef = ref || defaultRef;
+export const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }: { indeterminate: boolean }, ref: Ref<any>) => {
+  const defaultRef = useRef();
+  const resolvedRef = ref || defaultRef;
 
-    return (
-      <Checkbox indeterminate={indeterminate} ref={resolvedRef} {...rest} />
-    );
-  },
-);
+  return <Checkbox indeterminate={indeterminate} ref={resolvedRef} {...rest} />;
+});
 
 export const TableRowSelection = ({ selected }: { selected: number }) => (
   <>
@@ -232,7 +176,7 @@ export const TableRowSelection = ({ selected }: { selected: number }) => (
           position: 'absolute',
           right: -1,
           top: -1,
-          borderRadius: '0 4px 0 4px',
+          borderRadius: '0 4px 0 4px'
         }}
       />
     )}
@@ -254,12 +198,7 @@ interface DraggableHeaderProps {
   children: ReactNode;
 }
 
-export const DraggableHeader = ({
-  children,
-  column,
-  index,
-  reorder,
-}: DraggableHeaderProps) => {
+export const DraggableHeader = ({ children, column, index, reorder }: DraggableHeaderProps) => {
   const theme = useTheme();
   const ref = useRef();
   const { id, Header } = column;
@@ -273,8 +212,8 @@ export const DraggableHeader = ({
     },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
-      isOverCurrent: monitor.isOver({ shallow: true }),
-    }),
+      isOverCurrent: monitor.isOver({ shallow: true })
+    })
   });
 
   const [{ isDragging }, drag, preview] = useDrag({
@@ -282,11 +221,11 @@ export const DraggableHeader = ({
     item: () => ({
       id,
       index,
-      header: Header,
+      header: Header
     }),
     collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
+      isDragging: monitor.isDragging()
+    })
   });
 
   useEffect(() => {
@@ -301,10 +240,7 @@ export const DraggableHeader = ({
   }
 
   return (
-    <Box
-      sx={{ cursor: 'move', opacity: isDragging ? 0.5 : 1, color: borderColor }}
-      ref={ref}
-    >
+    <Box sx={{ cursor: 'move', opacity: isDragging ? 0.5 : 1, color: borderColor }} ref={ref}>
       {children}
     </Box>
   );
@@ -312,33 +248,26 @@ export const DraggableHeader = ({
 
 // ==============================|| DRAG & DROP - DRAG PREVIEW ||============================== //
 
-interface StyleProps {
-  theme: Theme;
-  x: number;
-  y: number;
-}
-const DragHeader = styled('div')<StyleProps>(({ theme, x, y }: StyleProps) => ({
+const DragHeader = styled('div')(({ theme, x, y }: { theme: Theme; x: number; y: number }) => ({
   color: theme.palette.text.secondary,
   position: 'fixed',
   pointerEvents: 'none',
   left: 12,
   top: 24,
   transform: `translate(${x}px, ${y}px)`,
-  opacity: 0.6,
+  opacity: 0.6
 }));
 
 export const DragPreview = () => {
   const theme = useTheme();
 
-  const { isDragging, item, currentOffset } = useDragLayer(
-    (monitor: DragLayerMonitor<{}>) => ({
-      item: monitor.getItem(),
-      itemType: monitor.getItemType(),
-      initialOffset: monitor.getInitialSourceClientOffset(),
-      currentOffset: monitor.getSourceClientOffset(),
-      isDragging: monitor.isDragging(),
-    }),
-  );
+  const { isDragging, item, currentOffset } = useDragLayer((monitor: DragLayerMonitor<{}>) => ({
+    item: monitor.getItem(),
+    itemType: monitor.getItemType(),
+    initialOffset: monitor.getInitialSourceClientOffset(),
+    currentOffset: monitor.getSourceClientOffset(),
+    isDragging: monitor.isDragging()
+  }));
 
   const { x, y } = currentOffset || {};
 
@@ -362,11 +291,7 @@ interface DraggableRowProps {
   children: ReactNode;
 }
 
-export const DraggableRow = ({
-  index,
-  moveRow,
-  children,
-}: DraggableRowProps) => {
+export const DraggableRow = ({ index, moveRow, children }: DraggableRowProps) => {
   const DND_ITEM_TYPE = 'row';
 
   const dropRef = useRef<any>(null);
@@ -385,8 +310,7 @@ export const DraggableRow = ({
       }
 
       const hoverBoundingRect = dropRef.current.getBoundingClientRect();
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
       const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
@@ -398,15 +322,15 @@ export const DraggableRow = ({
 
       moveRow(dragIndex, hoverIndex);
       item.index = hoverIndex;
-    },
+    }
   });
 
   const [{ isDragging }, drag, preview] = useDrag({
     type: DND_ITEM_TYPE,
     item: { index },
     collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
+      isDragging: monitor.isDragging()
+    })
   });
 
   const opacity = isDragging ? 0 : 1;
@@ -415,10 +339,7 @@ export const DraggableRow = ({
   drag(dragRef);
 
   return (
-    <TableRow
-      ref={dropRef}
-      style={{ opacity, backgroundColor: isDragging ? 'red' : 'inherit' }}
-    >
+    <TableRow ref={dropRef} style={{ opacity, backgroundColor: isDragging ? 'red' : 'inherit' }}>
       <TableCell ref={dragRef} sx={{ cursor: 'pointer', textAlign: 'center' }}>
         <DragOutlined />
       </TableCell>
@@ -435,9 +356,9 @@ const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 200,
-    },
-  },
+      width: 200
+    }
+  }
 };
 
 interface HidingSelectProps {
@@ -446,23 +367,17 @@ interface HidingSelectProps {
   setHiddenColumns: (param: string[]) => void;
 }
 
-export const HidingSelect = ({
-  hiddenColumns,
-  setHiddenColumns,
-  allColumns,
-}: HidingSelectProps) => {
+export const HidingSelect = ({ hiddenColumns, setHiddenColumns, allColumns }: HidingSelectProps) => {
   const handleChange = (event: SelectChangeEvent<typeof hiddenColumns>) => {
     const {
-      target: { value },
+      target: { value }
     } = event;
 
     setHiddenColumns(typeof value === 'string' ? value.split(',') : value!);
   };
 
   const theme = useTheme();
-  let visible = allColumns.filter(
-    (c: ColumnInstance) => !hiddenColumns.includes(c.id),
-  ).length;
+  let visible = allColumns.filter((c: ColumnInstance) => !hiddenColumns.includes(c.id)).length;
 
   return (
     <FormControl sx={{ width: 200 }}>
@@ -472,49 +387,28 @@ export const HidingSelect = ({
         displayEmpty
         value={hiddenColumns}
         onChange={handleChange}
-        input={
-          <OutlinedInput
-            id="select-column-hiding"
-            placeholder="select column"
-          />
-        }
+        input={<OutlinedInput id="select-column-hiding" placeholder="select column" />}
         renderValue={(selected) => {
           if (selected.length === 0) {
-            return (
-              <Typography variant="subtitle1">All columns visible</Typography>
-            );
+            return <Typography variant="subtitle1">All columns visible</Typography>;
           }
 
           if (selected.length > 0 && selected.length === allColumns.length) {
-            return (
-              <Typography variant="subtitle1">All columns visible</Typography>
-            );
+            return <Typography variant="subtitle1">All columns visible</Typography>;
           }
 
-          return (
-            <Typography variant="subtitle1">
-              {visible} column(s) visible
-            </Typography>
-          );
+          return <Typography variant="subtitle1">{visible} column(s) visible</Typography>;
         }}
         MenuProps={MenuProps}
         size="small"
       >
         {allColumns.map((column: ColumnInstance) => {
-          let ToggleChecked =
-            column.id === '#'
-              ? true
-              : hiddenColumns!.indexOf(column.id) > -1
-              ? false
-              : true;
+          let ToggleChecked = column.id === '#' ? true : hiddenColumns!.indexOf(column.id) > -1 ? false : true;
           return (
             <MenuItem
               key={column.id}
               value={column.id}
-              sx={{
-                bgcolor: 'success.lighter',
-                '&.Mui-selected': { bgcolor: 'background.paper' },
-              }}
+              sx={{ bgcolor: 'success.lighter', '&.Mui-selected': { bgcolor: 'background.paper' } }}
             >
               <Checkbox
                 checked={ToggleChecked}
@@ -529,26 +423,14 @@ export const HidingSelect = ({
                       borderColor: 'inherit',
                       borderRadius: 0.25,
                       position: 'relative',
-                      backgroundColor: theme.palette.success.main,
+                      backgroundColor: theme.palette.success.main
                     }}
                   >
-                    <CheckOutlined
-                      className="filled"
-                      style={{
-                        position: 'absolute',
-                        color: theme.palette.common.white,
-                      }}
-                    />
+                    <CheckOutlined className="filled" style={{ position: 'absolute', color: theme.palette.common.white }} />
                   </Box>
                 }
               />
-              <ListItemText
-                primary={
-                  typeof column.Header === 'string'
-                    ? column.Header
-                    : column?.title
-                }
-              />
+              <ListItemText primary={typeof column.Header === 'string' ? column.Header : column?.title} />
             </MenuItem>
           );
         })}
@@ -565,16 +447,12 @@ interface SortingSelectProps {
   allColumns: ColumnInstance<{}>[];
 }
 
-export const SortingSelect = ({
-  sortBy,
-  setSortBy,
-  allColumns,
-}: SortingSelectProps) => {
+export const SortingSelect = ({ sortBy, setSortBy, allColumns }: SortingSelectProps) => {
   const [sort, setSort] = useState<string>(sortBy);
 
   const handleChange = (event: SelectChangeEvent<string>) => {
     const {
-      target: { value },
+      target: { value }
     } = event;
     setSort(value);
     setSortBy([{ id: value, desc: false }]);
@@ -587,24 +465,16 @@ export const SortingSelect = ({
         displayEmpty
         value={sort}
         onChange={handleChange}
-        input={
-          <OutlinedInput id="select-column-hiding" placeholder="Sort by" />
-        }
+        input={<OutlinedInput id="select-column-hiding" placeholder="Sort by" />}
         renderValue={(selected) => {
-          const selectedColumn = allColumns.filter(
-            (column: ColumnInstance) => column.id === selected,
-          )[0];
+          const selectedColumn = allColumns.filter((column: ColumnInstance) => column.id === selected)[0];
           if (!selected) {
             return <Typography variant="subtitle1">Sort By</Typography>;
           }
 
           return (
             <Typography variant="subtitle2">
-              Sort by (
-              {typeof selectedColumn.Header === 'string'
-                ? selectedColumn.Header
-                : selectedColumn?.title}
-              )
+              Sort by ({typeof selectedColumn.Header === 'string' ? selectedColumn.Header : selectedColumn?.title})
             </Typography>
           );
         }}
@@ -614,13 +484,7 @@ export const SortingSelect = ({
           .filter((column: ColumnInstance) => column.canSort)
           .map((column: ColumnInstance) => (
             <MenuItem key={column.id} value={column.id}>
-              <ListItemText
-                primary={
-                  typeof column.Header === 'string'
-                    ? column.Header
-                    : column?.title
-                }
-              />
+              <ListItemText primary={typeof column.Header === 'string' ? column.Header : column?.title} />
             </MenuItem>
           ))}
       </Select>
@@ -636,89 +500,47 @@ interface CSVExportProps {
   headers?: Headers;
 }
 
-// export const CSVExport = ({ data, filename, headers }: CSVExportProps) => {
-//   return (
-//     <CSVLink data={data} filename={filename} headers={headers}>
-//       <Tooltip title="CSV Export">
-//         <DownloadOutlined
-//           style={{
-//             fontSize: '24px',
-//             color: 'gray',
-//             marginTop: 4,
-//             marginRight: 4,
-//             marginLeft: 4,
-//           }}
-//         />
-//       </Tooltip>
-//     </CSVLink>
-//   );
-// };
+export const CSVExport = ({ data, filename, headers }: CSVExportProps) => {
+  return (
+    <CSVLink data={data} filename={filename} headers={headers}>
+      <Tooltip title="CSV Export">
+        <DownloadOutlined style={{ fontSize: '24px', color: 'gray', marginTop: 4, marginRight: 4, marginLeft: 4 }} />
+      </Tooltip>
+    </CSVLink>
+  );
+};
 
 // ==============================|| EMPTY TABLE - NO DATA  ||============================== //
 
 const StyledGridOverlay = styled(Stack)(({ theme }) => ({
   height: '400px',
   '& .ant-empty-img-1': {
-    fill:
-      theme.palette.mode === ThemeMode.DARK
-        ? theme.palette.secondary[200]
-        : theme.palette.secondary[400],
+    fill: theme.palette.mode === ThemeMode.DARK ? theme.palette.secondary[200] : theme.palette.secondary[400]
   },
   '& .ant-empty-img-2': {
-    fill: theme.palette.secondary.light,
+    fill: theme.palette.secondary.light
   },
   '& .ant-empty-img-3': {
-    fill:
-      theme.palette.mode === ThemeMode.DARK
-        ? theme.palette.secondary.A200
-        : theme.palette.secondary[200],
+    fill: theme.palette.mode === ThemeMode.DARK ? theme.palette.secondary.A200 : theme.palette.secondary[200]
   },
   '& .ant-empty-img-4': {
-    fill:
-      theme.palette.mode === ThemeMode.DARK
-        ? theme.palette.secondary.A300
-        : theme.palette.secondary.A100,
+    fill: theme.palette.mode === ThemeMode.DARK ? theme.palette.secondary.A300 : theme.palette.secondary.A100
   },
   '& .ant-empty-img-5': {
     fillOpacity: theme.palette.mode === ThemeMode.DARK ? '0.09' : '0.95',
-    fill:
-      theme.palette.mode === ThemeMode.DARK
-        ? theme.palette.secondary.darker
-        : theme.palette.secondary.light,
-  },
+    fill: theme.palette.mode === ThemeMode.DARK ? theme.palette.secondary.darker : theme.palette.secondary.light
+  }
 }));
 
-export const EmptyTable = ({
-  msg,
-  colSpan,
-}: {
-  msg: string;
-  colSpan?: number;
-}) => {
+export const EmptyTable = ({ msg, colSpan }: { msg: string; colSpan?: number }) => {
   return (
     <TableRow>
       <TableCell colSpan={colSpan}>
-        <StyledGridOverlay
-          alignItems="center"
-          justifyContent="center"
-          spacing={1}
-        >
-          <svg
-            width="120"
-            height="100"
-            viewBox="0 0 184 152"
-            aria-hidden
-            focusable="false"
-          >
+        <StyledGridOverlay alignItems="center" justifyContent="center" spacing={1}>
+          <svg width="120" height="100" viewBox="0 0 184 152" aria-hidden focusable="false">
             <g fill="none" fillRule="evenodd">
               <g transform="translate(24 31.67)">
-                <ellipse
-                  className="ant-empty-img-5"
-                  cx="67.797"
-                  cy="106.89"
-                  rx="67.797"
-                  ry="12.668"
-                />
+                <ellipse className="ant-empty-img-5" cx="67.797" cy="106.89" rx="67.797" ry="12.668" />
                 <path
                   className="ant-empty-img-1"
                   d="M122.034 69.674L98.109 40.229c-1.148-1.386-2.826-2.225-4.593-2.225h-51.44c-1.766 0-3.444.839-4.592 2.225L13.56 69.674v15.383h108.475V69.674z"
@@ -736,10 +558,7 @@ export const EmptyTable = ({
                 className="ant-empty-img-3"
                 d="M149.121 33.292l-6.83 2.65a1 1 0 0 1-1.317-1.23l1.937-6.207c-2.589-2.944-4.109-6.534-4.109-10.408C138.802 8.102 148.92 0 161.402 0 173.881 0 184 8.102 184 18.097c0 9.995-10.118 18.097-22.599 18.097-4.528 0-8.744-1.066-12.28-2.902z"
               />
-              <g
-                className="ant-empty-img-4"
-                transform="translate(149.65 15.383)"
-              >
+              <g className="ant-empty-img-4" transform="translate(149.65 15.383)">
                 <ellipse cx="20.654" cy="3.167" rx="2.849" ry="2.815" />
                 <path d="M5.698 5.63H0L2.898.704zM9.259.704h4.985V5.63H9.259z" />
               </g>

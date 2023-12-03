@@ -31,7 +31,7 @@ import { APP_DEFAULT_PATH } from 'config';
 import IconButton from 'components/@extended/IconButton';
 
 import AnimateButton from 'components/@extended/AnimateButton';
-import Logo from 'components/logo';
+import Logo from 'components/Logo';
 
 // types
 import { ThemeMode } from 'types/config';
@@ -89,7 +89,7 @@ const Header = ({ handleDrawerOpen, layout, ...others }: Props) => {
           <Toolbar sx={{ px: { xs: 1.5, md: 0, lg: 0 }, py: 2 }}>
             <Stack direction="row" sx={{ flexGrow: 1, display: { xs: 'none', md: 'block' } }} alignItems="center">
               <Typography component="div" sx={{ textAlign: 'left', display: 'inline-block' }}>
-                <Logo reverse to="/" />
+                <Logo reverse to="/" transparent />
               </Typography>
               <Chip
                 label={'v1.0.0@beta'}

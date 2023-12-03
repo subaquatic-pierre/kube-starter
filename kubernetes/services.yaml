@@ -6,150 +6,34 @@ items:
     kind: Service
     metadata:
       labels:
-        app: thor-admin-backend
-      name: thor-admin-backend
-      namespace: thor
+        app: kube-starter-api
+      name: kube-starter-api
+      namespace: kube-starter
     spec:
       ports:
         - nodePort: 31700
-          port: 4000
+          port: 8001
           protocol: TCP
-          targetPort: 4000
+          targetPort: 8001
       selector:
-        app: thor-admin-backend
+        app: kube-starter-api
       type: NodePort
-
-  # --- FILEMANAGER BACKEND ---
 
   - apiVersion: v1
     kind: Service
     metadata:
       labels:
-        app: thor-filemanager-backend
-      name: thor-filemanager-backend
-      namespace: thor
+        app: kube-starter-www
+      name: kube-starter-www
+      namespace: kube-starter
     spec:
       ports:
-        - nodePort: 31701
-          port: 8090
-          protocol: TCP
-          targetPort: 8090
-      selector:
-        app: thor-filemanager-backend
-      type: NodePort
-
-  # --- MARKETPLACE BACKEND ---
-
-  - apiVersion: v1
-    kind: Service
-    metadata:
-      labels:
-        app: thor-marketplace-backend
-      name: thor-marketplace-backend
-      namespace: thor
-    spec:
-      ports:
-        - nodePort: 31702
-          port: 7000
-          protocol: TCP
-          targetPort: 7000
-      selector:
-        app: thor-marketplace-backend
-      type: NodePort
-
-  # --- PRODUCT BACKEND ---
-
-  - apiVersion: v1
-    kind: Service
-    metadata:
-      labels:
-        app: thor-product-backend
-      name: thor-product-backend
-      namespace: thor
-    spec:
-      ports:
-        - nodePort: 31703
+        - nodePort: 31700
           port: 8000
           protocol: TCP
           targetPort: 8000
       selector:
-        app: thor-product-backend
-      type: NodePort
-
-  # --- RFX BACKEND ---
-
-  - apiVersion: v1
-    kind: Service
-    metadata:
-      labels:
-        app: thor-rfx-backend
-      name: thor-rfx-backend
-      namespace: thor
-    spec:
-      ports:
-        - nodePort: 31704
-          port: 2222
-          protocol: TCP
-          targetPort: 2222
-      selector:
-        app: thor-rfx-backend
-      type: NodePort
-
-  # --- USERS BACKEND ---
-
-  - apiVersion: v1
-    kind: Service
-    metadata:
-      labels:
-        app: thor-users-backend
-      name: thor-users-backend
-      namespace: thor
-    spec:
-      ports:
-        - nodePort: 31705
-          port: 2000
-          protocol: TCP
-          targetPort: 2000
-      selector:
-        app: thor-users-backend
-      type: NodePort
-
-  # --- REACT FRONTEND ---
-
-  - apiVersion: v1
-    kind: Service
-    metadata:
-      labels:
-        app: thor-react-frontend
-      name: thor-react-frontend
-      namespace: thor
-    spec:
-      ports:
-        - nodePort: 31707
-          port: 8080
-          protocol: TCP
-          targetPort: 8080
-      selector:
-        app: thor-react-frontend
-      type: NodePort
-
-  # --- THOR LANDINGPAGE ---
-
-  - apiVersion: v1
-    kind: Service
-    metadata:
-      labels:
-        app: thor-landingpage
-      name: thor-landingpage
-      namespace: thor
-    spec:
-      ports:
-        - nodePort: 31708
-          port: 3000
-          protocol: TCP
-          targetPort: 3000
-      selector:
-        app: thor-landingpage
+        app: kube-starter-www
       type: NodePort
 
 kind: List

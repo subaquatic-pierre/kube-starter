@@ -30,7 +30,7 @@ run_build(){
   docker build -f Dockerfile.prod . -t $full_repo
 
   # Push image to docker hub
-  docker --config $HOME/.docker/roman push $full_repo
+  docker push $full_repo
 
   # Update package.json version
 #   jq '."version" = "'"$version"'"' package.json > package.json.tmp
@@ -46,84 +46,22 @@ run() {
     [ -z "$version" ] && die "Version tag not specified."
 
     # --- ADMIN BACKEND ---
+    docker_user="docker-user"
+    api_repo="$(docker_user)/kube-starter-api"
+    www_repo="$(docker_user)/kube-starter-www"
 
-    admin_repo="cdtroman/thor-admin-backend"
-
-    # Move to the Admin_Backend directory.
-    pushd_quiet "Admin_Backend"
-    run_build "$admin_repo" "$version"
+    # Move to the api directory.
+    pushd_quiet "api"
+    run_build "$api_repo" "$version"
     # Back to workdir.
     popd_quiet
 
-    # --- FILEMANAGER BACKEND ---
-
-    filemanager_repo="cdtroman/thor-filemanager-backend"
-
-    # Move to the Filemanager-Backend directory.
-    pushd_quiet "Filemanager-Backend"
-    run_build "$filemanager_repo" "$version"
+    # Move to the www directory.
+    pushd_quiet "api"
+    run_build "$www_repo" "$version"
     # Back to workdir.
     popd_quiet
 
-    # --- MARKETPLACE BACKEND ---
-
-    marketplace_repo="cdtroman/thor-marketplace-backend"
-
-    # Move to the Marketplace_Backend directory.
-    pushd_quiet "Marketplace_Backend"
-    run_build "$marketplace_repo" "$version"
-    # Back to workdir.
-    popd_quiet
-
-    # --- PRODUCT BACKEND ---
-
-    product_repo="cdtroman/thor-product-backend"
-
-    # Move to the Product_Backend directory.
-    pushd_quiet "Product_Backend"
-    run_build "$product_repo" "$version"
-    # Back to workdir.
-    popd_quiet
-
-    # --- RFX BACKEND ---
-
-    rfx_repo="cdtroman/thor-rfx-backend"
-
-    # Move to the RFX_Backend directory.
-    pushd_quiet "RFX_Backend"
-    run_build "$rfx_repo" "$version"
-    # Back to workdir.
-    popd_quiet
-
-    # --- USERS BACKEND ---
-
-    users_repo="cdtroman/thor-users-backend"
-
-    # Move to the Users_Backend directory.
-    pushd_quiet "Users_Backend"
-    run_build "$users_repo" "$version"
-    # Back to workdir.
-    popd_quiet
-
-    # --- REACT FRONTEND ---
-
-    react_frontend_repo="cdtroman/thor-react-frontend"
-
-    # Move to the Users_Backend directory.
-    pushd_quiet "React_FrontEnd"
-    run_build "$react_frontend_repo" "$version"
-    # Back to workdir.
-    popd_quiet
-
-    # --- LANDING PAGE ---
-
-    landingpage_repo="cdtroman/thor-landingpage"
-
-    # Move to the Users_Backend directory.
-    pushd_quiet "THOR-LANDINGPAGE"
-    run_build "$landingpage_repo" "$version"
-    # Back to workdir.
-    popd_quiet
 }
 
 run "$1"

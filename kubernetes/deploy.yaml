@@ -1,21 +1,21 @@
 apiVersion: v1
 items:
-  # --- ADMIN BACKEND ---
+  # --- API BACKEND ---
 
   - apiVersion: apps/v1
     kind: Deployment
     metadata:
       labels:
-        app: thor-admin-backend
-      name: thor-admin-backend
-      namespace: thor
+        app: kube-starter-api
+      name: kube-starter-api
+      namespace: kube-starter
     spec:
       progressDeadlineSeconds: 600
       replicas: 1
       revisionHistoryLimit: 10
       selector:
         matchLabels:
-          app: thor-admin-backend
+          app: kube-starter-api
       strategy:
         rollingUpdate:
           maxSurge: 25%
@@ -24,35 +24,35 @@ items:
       template:
         metadata:
           labels:
-            app: thor-admin-backend
+            app: kube-starter-api
         spec:
           containers:
-            - image: cdtroman/thor-admin-backend:0.10
+            - image: docker-user/kube-starter-api:0.10
               imagePullPolicy: IfNotPresent
-              name: thor-admin-backend
+              name: kube-starter-api
               envFrom:
                 - configMapRef:
-                    name: thor-mongodb-config
+                    name: kube-starter-config
 
           imagePullSecrets:
-            - name: regcred-docker-thor
+            - name: regcred-docker
 
-  # --- FILEMANAGER BACKEND ---
+  # --- WWW BACKEND ---
 
   - apiVersion: apps/v1
     kind: Deployment
     metadata:
       labels:
-        app: thor-filemanager-backend
-      name: thor-filemanager-backend
-      namespace: thor
+        app: kube-starter-www
+      name: kube-starter-www
+      namespace: kube-starter
     spec:
       progressDeadlineSeconds: 600
       replicas: 1
       revisionHistoryLimit: 10
       selector:
         matchLabels:
-          app: thor-filemanager-backend
+          app: kube-starter-www
       strategy:
         rollingUpdate:
           maxSurge: 25%
@@ -61,240 +61,18 @@ items:
       template:
         metadata:
           labels:
-            app: thor-filemanager-backend
+            app: kube-starter-www
         spec:
           containers:
-            - image: cdtroman/thor-filemanager-backend:0.10
+            - image: docker-user/kube-starter-www:0.10
               imagePullPolicy: IfNotPresent
-              name: thor-filemanager-backend
+              name: kube-starter-www
               envFrom:
                 - configMapRef:
-                    name: thor-mongodb-config
+                    name: kube-starter-config
 
           imagePullSecrets:
-            - name: regcred-docker-thor
-
-  # --- MARKETPLACE BACKEND ---
-
-  - apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      labels:
-        app: thor-marketplace-backend
-      name: thor-marketplace-backend
-      namespace: thor
-    spec:
-      progressDeadlineSeconds: 600
-      replicas: 1
-      revisionHistoryLimit: 10
-      selector:
-        matchLabels:
-          app: thor-marketplace-backend
-      strategy:
-        rollingUpdate:
-          maxSurge: 25%
-          maxUnavailable: 25%
-        type: RollingUpdate
-      template:
-        metadata:
-          labels:
-            app: thor-marketplace-backend
-        spec:
-          containers:
-            - image: cdtroman/thor-marketplace-backend:0.10
-              imagePullPolicy: IfNotPresent
-              name: thor-marketplace-backend
-              envFrom:
-                - configMapRef:
-                    name: thor-mongodb-config
-
-          imagePullSecrets:
-            - name: regcred-docker-thor
-
-  # --- PRODUCT BACKEND ---
-
-  - apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      labels:
-        app: thor-product-backend
-      name: thor-product-backend
-      namespace: thor
-    spec:
-      progressDeadlineSeconds: 600
-      replicas: 1
-      revisionHistoryLimit: 10
-      selector:
-        matchLabels:
-          app: thor-product-backend
-      strategy:
-        rollingUpdate:
-          maxSurge: 25%
-          maxUnavailable: 25%
-        type: RollingUpdate
-      template:
-        metadata:
-          labels:
-            app: thor-product-backend
-        spec:
-          containers:
-            - image: cdtroman/thor-product-backend:0.10
-              imagePullPolicy: IfNotPresent
-              name: thor-product-backend
-              envFrom:
-                - configMapRef:
-                    name: thor-mongodb-config
-
-          imagePullSecrets:
-            - name: regcred-docker-thor
-
-  # --- RFX BACKEND ---
-
-  - apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      labels:
-        app: thor-rfx-backend
-      name: thor-rfx-backend
-      namespace: thor
-    spec:
-      progressDeadlineSeconds: 600
-      replicas: 1
-      revisionHistoryLimit: 10
-      selector:
-        matchLabels:
-          app: thor-rfx-backend
-      strategy:
-        rollingUpdate:
-          maxSurge: 25%
-          maxUnavailable: 25%
-        type: RollingUpdate
-      template:
-        metadata:
-          labels:
-            app: thor-rfx-backend
-        spec:
-          containers:
-            - image: cdtroman/thor-rfx-backend:0.10
-              imagePullPolicy: IfNotPresent
-              name: thor-rfx-backend
-              envFrom:
-                - configMapRef:
-                    name: thor-mongodb-config
-
-          imagePullSecrets:
-            - name: regcred-docker-thor
-
-  # --- USERS BACKEND ---
-
-  - apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      labels:
-        app: thor-users-backend
-      name: thor-users-backend
-      namespace: thor
-    spec:
-      progressDeadlineSeconds: 600
-      replicas: 1
-      revisionHistoryLimit: 10
-      selector:
-        matchLabels:
-          app: thor-users-backend
-      strategy:
-        rollingUpdate:
-          maxSurge: 25%
-          maxUnavailable: 25%
-        type: RollingUpdate
-      template:
-        metadata:
-          labels:
-            app: thor-users-backend
-        spec:
-          containers:
-            - image: cdtroman/thor-users-backend:0.10
-              imagePullPolicy: IfNotPresent
-              name: thor-users-backend
-              envFrom:
-                - configMapRef:
-                    name: thor-mongodb-config
-
-          imagePullSecrets:
-            - name: regcred-docker-thor
-
-  # --- REACT FRONTEND ---
-
-  - apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      labels:
-        app: thor-react-frontend
-      name: thor-react-frontend
-      namespace: thor
-    spec:
-      progressDeadlineSeconds: 600
-      replicas: 1
-      revisionHistoryLimit: 10
-      selector:
-        matchLabels:
-          app: thor-react-frontend
-      strategy:
-        rollingUpdate:
-          maxSurge: 25%
-          maxUnavailable: 25%
-        type: RollingUpdate
-      template:
-        metadata:
-          labels:
-            app: thor-react-frontend
-        spec:
-          containers:
-            - image: cdtroman/thor-react-frontend:0.10
-              imagePullPolicy: IfNotPresent
-              name: thor-react-frontend
-              envFrom:
-                - configMapRef:
-                    name: thor-mongodb-config
-
-          imagePullSecrets:
-            - name: regcred-docker-thor
-
-  # --- THOR LANDINGPAGE ---
-
-  - apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      labels:
-        app: thor-landingpage
-      name: thor-landingpage
-      namespace: thor
-    spec:
-      progressDeadlineSeconds: 600
-      replicas: 1
-      revisionHistoryLimit: 10
-      selector:
-        matchLabels:
-          app: thor-landingpage
-      strategy:
-        rollingUpdate:
-          maxSurge: 25%
-          maxUnavailable: 25%
-        type: RollingUpdate
-      template:
-        metadata:
-          labels:
-            app: thor-landingpage
-        spec:
-          containers:
-            - image: cdtroman/thor-landingpage:0.10
-              imagePullPolicy: IfNotPresent
-              name: thor-landingpage
-              envFrom:
-                - configMapRef:
-                    name: thor-mongodb-config
-
-          imagePullSecrets:
-            - name: regcred-docker-thor
+            - name: regcred-docker
 
 kind: List
 metadata:

@@ -6,22 +6,22 @@ items:
     kind: Deployment
     metadata:
       labels:
-        app: thor-mongodb
-      name: thor-mongodb
-      namespace: thor
+        app: kube-starter-mongodb
+      name: kube-starter-mongodb
+      namespace: kube-starter
     spec:
       replicas: 1
       selector:
         matchLabels:
-          app: thor-mongodb
+          app: kube-starter-mongodb
       template:
         metadata:
           labels:
-            app: thor-mongodb
-            selector: thor-mongodb
+            app: kube-starter-mongodb
+            selector: kube-starter-mongodb
         spec:
           containers:
-            - name: thor-mongodb
+            - name: kube-starter-mongodb
               image: mongo:6.0
               env:
                 - name: MONGO_INITDB_ROOT_USERNAME_FILE
@@ -86,7 +86,7 @@ items:
     apiVersion: storage.k8s.io/v1
     metadata:
       name: mongodb-storageclass
-      namespace: thor
+      namespace: kube-starter
     provisioner: kubernetes.io/no-provisioner
     volumeBindingMode: WaitForFirstConsumer
     allowVolumeExpansion: true
@@ -97,7 +97,7 @@ items:
     kind: PersistentVolume
     metadata:
       name: mongodb-pv
-      namespace: thor
+      namespace: kube-starter
     spec:
       capacity:
         storage: 2Gi
@@ -115,7 +115,7 @@ items:
                 - key: kubernetes.io/hostname
                   operator: In
                   values:
-                    - thor-vm-demo1
+                    - aws-ec2-instance
 
   # --- PERSISTENT VOLUME CLAIM ---
 
@@ -123,7 +123,7 @@ items:
     apiVersion: v1
     metadata:
       name: mongodb-pvc
-      namespace: thor
+      namespace: kube-starter
     spec:
       storageClassName: mongodb-storageclass
       accessModes:
@@ -135,7 +135,7 @@ items:
           storage: 2Gi
       selector:
         matchLabels:
-          kubernetes.io/hostname: thor-vm-demo1
+          kubernetes.io/hostname: aws-ec2-instance
 
   # --- CONFIG MAP ---
 
@@ -198,28 +198,28 @@ items:
     kind: Secret
     metadata:
       name: mongodb-secret
-      namespace: thor
+      namespace: kube-starter
     type: Opaque
     data:
-      MONGO_ROOT_USERNAME: dGhvcgo= # thor
-      MONGO_ROOT_PASSWORD: TWFoYW5hZGlANAo= # Mahanadi@4
-      MONGO_USERNAME: dGhvcgo= # thor
-      MONGO_PASSWORD: TWFoYW5hZGlANAo= # Mahanadi@4
-      MONGO_USERS_LIST: dGhvcgo= # thor
+      MONGO_ROOT_USERNAME: BASE_64_SECRET
+      MONGO_ROOT_PASSWORD: BASE_64_SECRET
+      MONGO_USERNAME: BASE_64_SECRET
+      MONGO_PASSWORD: BASE_64_SECRET
+      MONGO_USERS_LIST: BASE_64_SECRET
 
   # --- SERVICE ---
 
   - apiVersion: v1
     kind: Service
     metadata:
-      namespace: thor
-      name: thor-mongodb
+      namespace: kube-starter
+      name: kube-starter-mongodb
       labels:
-        app: thor-mongodb-svc
+        app: kube-starter-mongodb-svc
     spec:
       type: NodePort
       selector:
-        app: thor-mongodb
+        app: kube-starter-mongodb
 
       ports:
         - port: 27017

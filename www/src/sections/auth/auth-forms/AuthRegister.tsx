@@ -11,12 +11,12 @@ import {
   Stack,
   Typography,
   FormControlLabel,
-  Checkbox,
+  Checkbox
 } from '@mui/material';
-import {
-  GoogleReCaptchaProvider,
-  GoogleReCaptcha,
-} from 'react-google-recaptcha-v3';
+// import {
+//   GoogleReCaptchaProvider,
+//   GoogleReCaptcha,
+// } from 'react-google-recaptcha-v3';
 
 // third party
 import * as Yup from 'yup';
@@ -87,16 +87,11 @@ const AuthRegister: React.FC<Props> = ({ formik, submitErrors, value }) => {
             onChange={handleChange}
             placeholder={dict.emailAddressPlaceholder}
             fullWidth
-            error={Boolean(
-              (touched.email && errors.email) || !!submitErrors.email,
-            )}
+            error={Boolean((touched.email && errors.email) || !!submitErrors.email)}
           />
           {(touched.email && errors.email) ||
             (submitErrors && (
-              <FormHelperText
-                error
-                id="standard-weight-helper-text-email-login"
-              >
+              <FormHelperText error id="standard-weight-helper-text-email-login">
                 <>{errors.email ?? submitErrors.email}</>
               </FormHelperText>
             ))}
@@ -107,9 +102,7 @@ const AuthRegister: React.FC<Props> = ({ formik, submitErrors, value }) => {
           <InputLabel htmlFor="password-login">{dict.password}</InputLabel>
           <OutlinedInput
             fullWidth
-            error={Boolean(
-              (touched.password && errors.password) || !!submitErrors.password,
-            )}
+            error={Boolean((touched.password && errors.password) || !!submitErrors.password)}
             id="password-login"
             type={showPassword ? 'text' : 'password'}
             value={values.password}
@@ -136,10 +129,7 @@ const AuthRegister: React.FC<Props> = ({ formik, submitErrors, value }) => {
           />
           {(touched.password && errors.password) ||
             (submitErrors && (
-              <FormHelperText
-                error
-                id="standard-weight-helper-text-password-login"
-              >
+              <FormHelperText error id="standard-weight-helper-text-password-login">
                 <>{errors.password ?? submitErrors.password}</>
               </FormHelperText>
             ))}
@@ -152,7 +142,7 @@ const AuthRegister: React.FC<Props> = ({ formik, submitErrors, value }) => {
                   bgcolor: level?.color,
                   width: 85,
                   height: 8,
-                  borderRadius: '7px',
+                  borderRadius: '7px'
                 }}
               />
             </Grid>
@@ -165,11 +155,11 @@ const AuthRegister: React.FC<Props> = ({ formik, submitErrors, value }) => {
         </FormControl>
       </Grid>
 
-      <Grid item xs={12} sx={{ mt: -1 }}>
+      {/* <Grid item xs={12} sx={{ mt: -1 }}>
         <GoogleReCaptchaProvider reCaptchaKey="6Lcz7YkoAAAAAC4ziRXiavm_KnHaMpfZbyb3ozIf">
           <GoogleReCaptcha onVerify={() => {}} refreshReCaptcha={change} />
         </GoogleReCaptchaProvider>
-      </Grid>
+      </Grid> */}
       {/* <Grid item xs={12} sx={{ mt: -1 }}>
         <Stack
           direction="row"

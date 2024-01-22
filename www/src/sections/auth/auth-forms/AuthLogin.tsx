@@ -77,7 +77,7 @@ const AuthLogin = () => {
       setSubmitting(false);
       setTokenInStorage(null);
     } else {
-      if (res.data.jwt) {
+      if (res.data?.jwt) {
         setLoading(true);
         const token = parseToken(res.data.jwt);
         setTokenInStorage(token);

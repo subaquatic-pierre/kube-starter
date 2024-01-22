@@ -49,12 +49,10 @@ const Register = () => {
 
       const registerData = {
         email: values.email,
-        password: values.password,
-        speaker: visitorSpeaker === 'visitor' ? false : true
+        password: values.password
       };
 
       const res = await register(registerData);
-      // const res = { error: { message: 'There was an error submitting form' } };
 
       if (res.error) {
         setSubmitErrors({
@@ -66,8 +64,8 @@ const Register = () => {
       }
     } catch (e) {
       setSubmitErrors({
-        email: e.errors[0] ?? '',
-        password: e.errors[1] ?? ''
+        email: e?.errors[0] ?? '',
+        password: e?.errors[1] ?? ''
       });
     }
   };
@@ -94,11 +92,7 @@ const Register = () => {
             <Grid item xs={12}>
               <Stack direction="row" justifyContent="space-between" alignItems="baseline" sx={{ mb: { xs: -0.5, sm: 0.5 } }}>
                 <Typography variant="h3">Register</Typography>
-                <NextLink href="/login">
-                  <Link variant="body1" color="primary">
-                    {dict.alreadyHaveAccount}
-                  </Link>
-                </NextLink>
+                <NextLink href="/login">{dict.alreadyHaveAccount}</NextLink>
               </Stack>
             </Grid>
             <Grid item xs={12}>
@@ -114,8 +108,6 @@ const Register = () => {
                     </Button>
                   </AnimateButton>
                 )}
-
-                {loading && <CircularProgress />}
               </Box>
             </Grid>
           </Grid>

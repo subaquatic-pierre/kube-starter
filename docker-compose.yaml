@@ -3,7 +3,7 @@ version: "3"
 services:
   # WWW Frontend
   www:
-    container_name: www-kube-starter
+    container_name: ${PROJECT_NAME}-www
     env_file:
       - ./.env
     build:
@@ -25,7 +25,7 @@ services:
 
   # API backend
   api:
-    container_name: api-kube-starter
+    container_name: ${PROJECT_NAME}-api
     env_file:
       - ./.env
     build:
@@ -48,7 +48,7 @@ services:
   # Mongo DB
   mongo:
     image: mongo:latest
-    container_name: mongodb-kube-starter
+    container_name: ${PROJECT_NAME}-mongodb
     env_file: .env
 
     environment:

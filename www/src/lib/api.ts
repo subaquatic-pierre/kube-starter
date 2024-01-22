@@ -2,7 +2,7 @@ import axios from 'axios';
 import { GET_PROFILE, PROFILES } from './endpoints';
 import { UserProfile, reduceProfile } from 'models/auth';
 
-const apiHost = process.env.NEXT_PUBLIC_STRAPI_API_URL;
+const apiHost = process.env.NEXT_PUBLIC_API_URL;
 
 type Object = Record<string, number | string | null>;
 
@@ -19,31 +19,12 @@ export type ApiRequest = {
 };
 
 export const apiReq = async <Model = object>({ endpoint, method = 'GET', data, headers }: ApiRequest): Promise<ApiResponse<Model>> => {
-  try {
-    const res = await axios.request({
-      method: method,
-      url: `${apiHost}${endpoint}`,
-      data,
-      headers
-    });
-
-    return { data: res.data };
-  } catch (e: any) {
-    console.log('THERE WAS AN ERROR');
-    if (e.response.status === 500) {
-      throw new Error(e);
-    }
-    if (e.response) {
-      return e.response.data;
-    } else if (e.request) {
-      return {
-        data: {} as Model,
-        error: { message: `${e.request}` }
-      };
-    } else {
-      return { data: {} as Model, error: { message: `${e}` } };
-    }
-  }
+  return axios.request<any, ApiResponse<Model>>({
+    method: method,
+    url: `${apiHost}${endpoint}`,
+    data,
+    headers
+  });
 };
 
 // Simple wrapper around apiReq, adds JWT token to headers

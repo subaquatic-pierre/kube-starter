@@ -59,14 +59,13 @@ export const resetPassword = async ({ code, password, passwordConfirmation }: Re
   });
 };
 
-export const register = async ({ email, password, speaker }: LoginArgs): Promise<ApiResponse<RegisterResponse>> => {
+export const register = async ({ email, password }: LoginArgs): Promise<ApiResponse<RegisterResponse>> => {
   const data = {
     username: generateId(),
     email: email,
-    password,
-    speaker
+    password
   };
-  return apiReq({ endpoint: REGISTER, method: 'POST', data });
+  return apiReq<RegisterResponse>({ endpoint: REGISTER, method: 'POST', data });
 };
 
 export const logout = async (): Promise<ApiResponse> => {

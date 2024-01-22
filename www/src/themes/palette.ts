@@ -83,18 +83,6 @@ const Palette = (mode: ThemeMode, presetColor: PresetColor) => {
         white: '#fff'
       },
       ...paletteColor,
-      primary: {
-        main: '#203155',
-        light: '#809BB7',
-        dark: '#274666',
-        contrastText: '#fff'
-      },
-      secondary: {
-        light: '#FFDFAB',
-        main: '#B79F79',
-        dark: '#6B593B',
-        contrastText: 'rgba(0, 0, 0, 0.87)'
-      },
       text: {
         primary: mode === ThemeMode.DARK ? alpha(paletteColor.grey[900]!, 0.87) : paletteColor.grey[700],
         secondary: mode === ThemeMode.DARK ? alpha(paletteColor.grey[900]!, 0.45) : paletteColor.grey[500],

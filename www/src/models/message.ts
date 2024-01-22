@@ -1,5 +1,4 @@
 import { UserProfile } from './auth';
-import { FileUpload } from './file';
 
 export type Message = {
   id: number;
@@ -11,7 +10,6 @@ export type Message = {
   contactEmail?: string;
   toUserRead: boolean;
   fromUserRead: boolean;
-  attachement?: FileUpload;
   phoneNumber?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -26,49 +24,45 @@ export const reduceMessage = (data: any): Message | null => {
       ...data.attributes,
       toUser: {
         id: data.attributes.toUser.data.id,
-        ...data.attributes.toUser.data.attributes,
+        ...data.attributes.toUser.data.attributes
       },
       ...(data.attributes.fromUser.data
         ? {
             fromUser: {
               id: data.attributes.fromUser.data.id,
-              ...data.attributes.fromUser.data.attributes,
-            },
+              ...data.attributes.fromUser.data.attributes
+            }
           }
         : {
             fromUser: {
               id: 0,
               firstName: 'Contact',
-              lastName: 'Message',
-            },
+              lastName: 'Message'
+            }
           }),
       ...(data.attributes.toUser.data
         ? {
             toUser: {
               id: data.attributes.toUser.data.id,
-              ...data.attributes.toUser.data.attributes,
-            },
+              ...data.attributes.toUser.data.attributes
+            }
           }
         : {
             toUser: {
               id: 0,
               firstName: 'Contact',
-              lastName: 'Message',
-            },
-          }),
+              lastName: 'Message'
+            }
+          })
     };
 
     if (data.attributes.fromUser.data) {
-      const role =
-        data.attributes.fromUser.data.attributes.user.data.attributes.role.data
-          .attributes;
+      const role = data.attributes.fromUser.data.attributes.user.data.attributes.role.data.attributes;
 
       message.fromUser.user.role = role;
     }
     if (data.attributes.toUser.data) {
-      const role =
-        data.attributes.toUser.data.attributes.user.data.attributes.role.data
-          .attributes;
+      const role = data.attributes.toUser.data.attributes.user.data.attributes.role.data.attributes;
 
       message.toUser.user.role = role;
     }
@@ -113,12 +107,7 @@ export const removeAdminMessages = (messages: Message[]): Message[] => {
     try {
       const fromUserRole = msg.fromUser.user.role.type;
 
-      if (
-        fromUserRole !== 'admin' &&
-        fromUserRole !== 'member' &&
-        fromUserRole !== 'author' &&
-        fromUserRole !== 'organizer'
-      ) {
+      if (fromUserRole !== 'admin' && fromUserRole !== 'member' && fromUserRole !== 'author' && fromUserRole !== 'organizer') {
         returnMsgs.push(msg);
       }
     } catch (e) {

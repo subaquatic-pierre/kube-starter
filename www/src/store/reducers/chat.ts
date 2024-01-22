@@ -8,10 +8,11 @@ import { dispatch } from '../index';
 // types
 import { ChatStateProps } from 'types/chat';
 import { apiReqWithAuth } from 'lib/api';
-import { CREATE_MESSAGE, GET_MESSAGES, GET_USERS, GET_ADMINS } from 'lib/endpoints';
 import { UserProfile } from 'models/auth';
-import { blankProfile, chatContactUser } from 'utils/blankData';
+import { blankProfile, blankUser } from 'utils/blankData';
 import { Message, reduceMessage, reduceMessages } from 'models/message';
+
+import { CREATE_MESSAGE, GET_MESSAGES, GET_USERS, GET_ADMINS } from 'lib/endpoints';
 
 // ==============================|| SLICE - CHAT||============================== //
 
@@ -123,14 +124,12 @@ const getUsersFromMessages = (messages: Message[]): UserProfile[] => {
   const users: UserProfile[] = [];
 
   // Add contact user first
-  users.push(chatContactUser);
+  users.push(blankProfile);
 
   for (const message of messages) {
     if (message.isContactMessage || !message.fromUser) {
       continue;
     } else {
-      message.fromUser.lastMessageTime = null;
-      message.toUser.lastMessageTime = null;
       users.push(message.fromUser);
       users.push(message.toUser);
     }

@@ -8,7 +8,7 @@ import axios from 'utils/axios';
 import { dispatch } from 'store';
 
 // types
-import { CalendarProps } from '../../types/calendar';
+import { CalendarProps } from 'types/calendar';
 import { apiReqWithAuth } from 'lib/api';
 import { CALENDAR_EVENTS, CALENDAR_EVENTS_POPULATE_SPEAKER } from 'lib/endpoints';
 
@@ -17,8 +17,6 @@ const reduceCreateEventAttrs = (data: { data }): EventInput => {
     id: data.data.id,
     ...data.data.attributes
   };
-
-  console.log('reduceCreateEventAttrs', data);
 
   return event;
 };

@@ -3,6 +3,9 @@ data/
 **/env/**
 **/env.*
 
+**/*.tfvars
+**/*.terraform/
+
 
 
 

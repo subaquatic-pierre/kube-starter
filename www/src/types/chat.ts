@@ -1,4 +1,4 @@
-import { UserProfile } from 'models/auth';
+import { User } from 'models/auth';
 
 export type History = {
   from?: string;
@@ -17,7 +17,7 @@ export interface ChatHistory {
 
 export interface ChatStateProps {
   chats: ChatHistory[];
-  user: UserProfile;
-  users: UserProfile[];
+  user: User;
+  users: User[];
   error: object | string | null;
 }

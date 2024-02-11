@@ -1,5 +1,4 @@
 import { ReactElement } from 'react';
-import { getProfileStatus } from 'lib/utils';
 import { blankUser } from 'utils/blankData';
 
 export type User = {
@@ -13,22 +12,7 @@ export type User = {
   role: UserRoleEnum;
 };
 
-export type UserProfile = {
-  id: number;
-  title: string | null;
-  email: string;
-  createdAt: string;
-  updatedAt: string;
-  firstName: string | null;
-  lastName: string | null;
-  contact: string | null;
-  status: UserProfileStatus | undefined;
-  user: User;
-};
-
-export type UserRoleEnum = 'visitor' | 'speaker' | 'member' | 'admin' | 'author' | 'organizer';
-
-export type UserProfileStatus = 'pending' | 'confirmed' | 'rejected' | 'incomplete' | 'unknown';
+export type UserRoleEnum = 'admin' | 'user';
 
 export type JWTToken = {
   iat: number;
@@ -41,7 +25,7 @@ export type GuardProps = {
   children: ReactElement | null;
 };
 
-export const reduceProfile = (data: any): UserProfile | null => {
+export const reduceProfile = (data: any): null => {
   try {
     const profile = {
       id: data.id,
@@ -62,9 +46,6 @@ export const reduceProfile = (data: any): UserProfile | null => {
       profile.user = blankUser;
     }
     //
-
-    const status = getProfileStatus(profile);
-    profile['status'] = status;
 
     return profile;
   } catch (e) {

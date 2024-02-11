@@ -1,11 +1,7 @@
 // third-party
 
 // assets
-import {
-  UserOutlined,
-  MessageOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
+import { UserOutlined, MessageOutlined, VideoCameraOutlined } from '@ant-design/icons';
 
 // type
 import { NavItemType } from 'types/menu';
@@ -24,7 +20,7 @@ const profile: NavItemType = {
       title: 'User Profile',
       type: 'item',
       icon: UserOutlined,
-      url: '/profile/personal',
+      url: '/profile/personal'
     },
     // {
     //   id: 'certifications',
@@ -38,8 +34,8 @@ const profile: NavItemType = {
       title: 'My Messages',
       type: 'item',
       icon: MessageOutlined,
-      url: '/profile/messages',
-    },
+      url: '/profile/messages'
+    }
     // {
     //   id: 'stream',
     //   title: 'Session Recordings',
@@ -47,7 +43,7 @@ const profile: NavItemType = {
     //   icon: VideoCameraOutlined,
     //   url: '/profile/stream',
     // },
-  ],
+  ]
 };
 
 export default profile;

@@ -2,14 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import {
-  AppBar,
-  Box,
-  ClickAwayListener,
-  Paper,
-  Popper,
-  Toolbar,
-} from '@mui/material';
+import { AppBar, Box, ClickAwayListener, Paper, Popper, Toolbar } from '@mui/material';
 
 // project import
 import Search from './Search';
@@ -53,21 +46,17 @@ const MobileSection = () => {
     prevOpen.current = open;
   }, [open]);
 
-  const iconBackColorOpen =
-    theme.palette.mode === ThemeMode.DARK ? 'grey.200' : 'grey.300';
-  const iconBackColor =
-    theme.palette.mode === ThemeMode.DARK ? 'background.default' : 'grey.100';
+  const iconBackColorOpen = theme.palette.mode === ThemeMode.DARK ? 'grey.200' : 'grey.300';
+  const iconBackColor = theme.palette.mode === ThemeMode.DARK ? 'background.default' : 'grey.100';
 
   return (
     <>
-      <Box
-        sx={{ flexShrink: 0, ml: 0.75, display: 'flex', alignItems: 'center' }}
-      >
+      <Box sx={{ flexShrink: 0, ml: 0.75, display: 'flex', alignItems: 'center' }}>
         <LanguageSelect />
         <IconButton
           sx={{
             color: 'text.primary',
-            bgcolor: open ? iconBackColorOpen : iconBackColor,
+            bgcolor: open ? iconBackColorOpen : iconBackColor
           }}
           aria-label="open more menu"
           ref={anchorRef}
@@ -93,10 +82,10 @@ const MobileSection = () => {
             {
               name: 'offset',
               options: {
-                offset: [0, 9],
-              },
-            },
-          ],
+                offset: [0, 9]
+              }
+            }
+          ]
         }}
       >
         {({ TransitionProps }) => (

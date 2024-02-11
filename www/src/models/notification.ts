@@ -1,15 +1,11 @@
-import { UserProfile } from './auth';
+import { User } from './auth';
 
-export type NotificationType =
-  | 'profileComplete'
-  | 'newAbstract'
-  | 'profileUpdate'
-  | 'userRegister';
+export type NotificationType = 'profileComplete' | 'newAbstract' | 'profileUpdate' | 'userRegister';
 
 export type Notification = {
   id: number;
-  toUser: UserProfile;
-  fromUser: UserProfile;
+  toUser: User;
+  fromUser: User;
   type: NotificationType;
   content: string;
   time: Date;
@@ -25,25 +21,21 @@ export const reduceNotification = (data: any): Notification | null => {
       ...data.attributes,
       toUser: {
         id: data.attributes.toUser.data.id,
-        ...data.attributes.toUser.data.attributes,
+        ...data.attributes.toUser.data.attributes
       },
       fromUser: {
         id: data.attributes.fromUser.data.id,
-        ...data.attributes.fromUser.data.attributes,
-      },
+        ...data.attributes.fromUser.data.attributes
+      }
     };
 
     if (data.attributes.fromUser.data) {
-      const role =
-        data.attributes.fromUser.data.attributes.user.data.attributes.role.data
-          .attributes;
+      const role = data.attributes.fromUser.data.attributes.user.data.attributes.role.data.attributes;
 
       notification.fromUser.user.role = role;
     }
     if (data.attributes.toUser.data) {
-      const role =
-        data.attributes.toUser.data.attributes.user.data.attributes.role.data
-          .attributes;
+      const role = data.attributes.toUser.data.attributes.user.data.attributes.role.data.attributes;
 
       notification.toUser.user.role = role;
     }

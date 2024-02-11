@@ -13,7 +13,7 @@ import {
   Paper,
   Popper,
   Typography,
-  useMediaQuery,
+  useMediaQuery
 } from '@mui/material';
 
 // third-party
@@ -70,20 +70,11 @@ const PopperStyled = styled(Popper)(({ theme }) => ({
     zIndex: 120,
     borderWidth: '6px',
     borderStyle: 'solid',
-    borderColor: `${theme.palette.background.paper}  transparent transparent ${theme.palette.background.paper}`,
-  },
+    borderColor: `${theme.palette.background.paper}  transparent transparent ${theme.palette.background.paper}`
+  }
 }));
 
-const NavGroup = ({
-  item,
-  lastItem,
-  remItems,
-  lastItemId,
-  setSelectedItems,
-  selectedItems,
-  setSelectedLevel,
-  selectedLevel,
-}: Props) => {
+const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, selectedItems, setSelectedLevel, selectedLevel }: Props) => {
   const theme = useTheme();
   const router = useRouter();
   const { asPath } = router;
@@ -94,9 +85,7 @@ const NavGroup = ({
 
   const downLG = useMediaQuery(theme.breakpoints.down('lg'));
 
-  const [anchorEl, setAnchorEl] = useState<
-    VirtualElement | (() => VirtualElement) | null | undefined
-  >(null);
+  const [anchorEl, setAnchorEl] = useState<VirtualElement | (() => VirtualElement) | null | undefined>(null);
   const [currentItem, setCurrentItem] = useState(item);
 
   const openMini = Boolean(anchorEl);
@@ -143,12 +132,7 @@ const NavGroup = ({
     // eslint-disable-next-line
   }, [asPath, currentItem]);
 
-  const handleClick = (
-    event:
-      | React.MouseEvent<HTMLAnchorElement>
-      | React.MouseEvent<HTMLDivElement, MouseEvent>
-      | undefined,
-  ) => {
+  const handleClick = (event: React.MouseEvent<HTMLAnchorElement> | React.MouseEvent<HTMLDivElement, MouseEvent> | undefined) => {
     if (!openMini) {
       setAnchorEl(event?.currentTarget);
     }
@@ -164,10 +148,7 @@ const NavGroup = ({
       style={{
         fontSize: 20,
         stroke: '1.5',
-        color:
-          selectedID === currentItem.id
-            ? theme.palette.primary.main
-            : theme.palette.secondary.dark,
+        color: selectedID === currentItem.id ? theme.palette.primary.main : theme.palette.secondary.dark
       }}
     />
   ) : null;
@@ -191,12 +172,7 @@ const NavGroup = ({
         return <NavItem key={menuItem.id} item={menuItem} level={1} />;
       default:
         return (
-          <Typography
-            key={menuItem.id}
-            variant="h6"
-            color="error"
-            align="center"
-          >
+          <Typography key={menuItem.id} variant="h6" color="error" align="center">
             Fix - Group Collapse or Items
           </Typography>
         );
@@ -229,12 +205,7 @@ const NavGroup = ({
             return <NavItem key={menu.id} item={menu} level={1} />;
           default:
             return (
-              <Typography
-                key={menu.id}
-                variant="h6"
-                color="error"
-                align="center"
-              >
+              <Typography key={menu.id} variant="h6" color="error" align="center">
                 Menu Items Error
               </Typography>
             );
@@ -280,14 +251,7 @@ const NavGroup = ({
             item.title &&
             drawerOpen && (
               <Box sx={{ pl: 3, mb: 1.5 }}>
-                <Typography
-                  variant="subtitle2"
-                  color={
-                    theme.palette.mode === ThemeMode.DARK
-                      ? 'textSecondary'
-                      : 'text.secondary'
-                  }
-                >
+                <Typography variant="subtitle2" color={theme.palette.mode === ThemeMode.DARK ? 'textSecondary' : 'text.secondary'}>
                   {item.title}
                 </Typography>
                 {item.caption && (
@@ -314,8 +278,8 @@ const NavGroup = ({
               alignItems: 'center',
               backgroundColor: 'inherit',
               '&.Mui-selected': {
-                bgcolor: 'transparent',
-              },
+                bgcolor: 'transparent'
+              }
             }}
             onMouseEnter={handleClick}
             onClick={handleClick}
@@ -324,11 +288,7 @@ const NavGroup = ({
           >
             {itemIcon && (
               <ListItemIcon sx={{ minWidth: 28 }}>
-                {currentItem.id === lastItemId ? (
-                  <DownOutlined style={{ fontSize: 20, stroke: '1.5' }} />
-                ) : (
-                  itemIcon
-                )}
+                {currentItem.id === lastItemId ? <DownOutlined style={{ fontSize: 20, stroke: '1.5' }} /> : itemIcon}
               </ListItemIcon>
             )}
             <ListItemText
@@ -336,17 +296,9 @@ const NavGroup = ({
               primary={
                 <Typography
                   variant="body1"
-                  color={
-                    selectedID === currentItem.id
-                      ? theme.palette.primary.main
-                      : theme.palette.secondary.dark
-                  }
+                  color={selectedID === currentItem.id ? theme.palette.primary.main : theme.palette.secondary.dark}
                 >
-                  {currentItem.id === lastItemId ? (
-                    <FormattedMessage id="More Items" />
-                  ) : (
-                    currentItem.title
-                  )}
+                  {currentItem.id === lastItemId ? <FormattedMessage id="More Items" /> : currentItem.title}
                 </Typography>
               }
             />
@@ -362,7 +314,7 @@ const NavGroup = ({
                 anchorEl={anchorEl}
                 placement="bottom-start"
                 style={{
-                  zIndex: 2001,
+                  zIndex: 2001
                 }}
               >
                 {({ TransitionProps }) => (
@@ -372,7 +324,7 @@ const NavGroup = ({
                         mt: 0.5,
                         py: 1.25,
                         boxShadow: theme.shadows[8],
-                        backgroundImage: 'none',
+                        backgroundImage: 'none'
                       }}
                     >
                       <ClickAwayListener onClickAway={handleClose}>
@@ -380,7 +332,7 @@ const NavGroup = ({
                           sx={{
                             overflowX: 'hidden',
                             overflowY: 'auto',
-                            maxHeight: 'calc(100vh - 170px)',
+                            maxHeight: 'calc(100vh - 170px)'
                           }}
                         >
                           {currentItem.id !== lastItemId ? items : moreItems}

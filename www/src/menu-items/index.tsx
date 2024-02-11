@@ -4,7 +4,7 @@ import profile from './profile';
 
 //types
 import { NavItemType } from 'types/menu';
-import { UserRole, UserRoleEnum } from 'models/auth';
+import { UserRoleEnum } from 'models/auth';
 
 // ==============================|| MENU ITEMS ||============================== //
 type MenuItems = { items: NavItemType[] };

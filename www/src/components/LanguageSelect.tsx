@@ -11,10 +11,7 @@ interface Props {
   fixed?: boolean;
 }
 
-const LanguageSelect: React.FC<Props> = ({
-  handleSidebarClose,
-  fixed = false,
-}) => {
+const LanguageSelect: React.FC<Props> = ({ handleSidebarClose, fixed = false }) => {
   const { onChangeLang } = useConfig();
   // const [lang, setLanguage] = useState<I18n>('en');
 
@@ -37,31 +34,12 @@ const LanguageSelect: React.FC<Props> = ({
 
   return (
     <Box sx={{ ...(fixed && { position: 'fixed', top: 20, right: 20 }) }}>
-      <Stack
-        direction="row"
-        spacing={1}
-        mr={2}
-        sx={{ '& * img': { '&:hover': { cursor: 'pointer' } } }}
-      >
+      <Stack direction="row" spacing={1} mr={2} sx={{ '& * img': { '&:hover': { cursor: 'pointer' } } }}>
         <Box onClick={() => handleLangChange('ar')}>
-          <Image
-            loading="eager"
-            quality={100}
-            width={35}
-            height={21}
-            src={`${basePath}/assets/svg/ae.svg`}
-            alt={'flag'}
-          />
+          <Image loading="eager" quality={100} width={35} height={21} src={`${basePath}/assets/svg/ae.svg`} alt={'flag'} />
         </Box>
         <Box onClick={() => handleLangChange('en')}>
-          <Image
-            loading="eager"
-            quality={100}
-            width={35}
-            height={21}
-            src={`${basePath}/assets/svg/gb.svg`}
-            alt={'flag'}
-          />
+          <Image loading="eager" quality={100} width={35} height={21} src={`${basePath}/assets/svg/gb.svg`} alt={'flag'} />
         </Box>
       </Stack>
     </Box>

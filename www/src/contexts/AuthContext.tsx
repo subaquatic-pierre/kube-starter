@@ -2,21 +2,19 @@ import { createContext, ReactNode, useEffect, useState } from 'react';
 
 // project import
 import { sleep } from 'utils/sleep';
-import { JWTToken, User, UserProfile, UserRoleEnum } from 'models/auth';
+import { JWTToken, User, UserRoleEnum } from 'models/auth';
 import { getTokenFromStorage, isTokenExpired, parseToken, setTokenInStorage } from 'utils/jwt';
 import { apiReq } from 'lib/api';
 import { PROFILE, USER } from 'lib/endpoints';
 import { dispatch, useSelector } from 'store';
 import { openSnackbar } from 'store/reducers/snackbar';
 import { useRouter } from 'next/router';
-import { getProfileStatus } from 'lib/utils';
 
 // types
 
 type AuthContextProps = {
   role: UserRoleEnum | null;
   user: User;
-  // profile: UserProfile;
   loading: boolean;
   error: object | string | null;
   setLoading: (state: boolean) => void;
@@ -28,7 +26,6 @@ const initialState: AuthContextProps = {
   loading: true,
   error: null,
   user: {} as User,
-  // profile: {} as UserProfile,
   setLoading: (state: boolean) => {},
   reloadProfile: () => {}
 };
@@ -77,28 +74,6 @@ function AuthContextProvider({ children }: ConfigProviderProps) {
       return res.data;
     } catch (e) {
       setError('There was an error getting user');
-      return null;
-    }
-  };
-
-  const getProfile = async (token: JWTToken): Promise<UserProfile | null> => {
-    try {
-      const headers = {
-        Authorization: `Bearer ${token.str}`
-      };
-
-      const res = await apiReq<UserProfile>({ endpoint: PROFILE, headers });
-
-      const status = getProfileStatus(res.data);
-      res.data['status'] = status;
-
-      if (res.error) {
-        setError(res.error);
-        return null;
-      }
-      return res.data;
-    } catch (e) {
-      setError('There was an error getting profile');
       return null;
     }
   };

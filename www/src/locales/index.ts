@@ -4,7 +4,7 @@ import { I18n } from 'types/config';
 
 const dictionaries = {
   en,
-  ar,
+  ar
 };
 
 const getDictionary = (locale: I18n) => dictionaries[locale];

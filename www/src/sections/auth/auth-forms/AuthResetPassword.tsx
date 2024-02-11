@@ -14,7 +14,7 @@ import {
   InputLabel,
   OutlinedInput,
   Stack,
-  Typography,
+  Typography
 } from '@mui/material';
 
 // third party
@@ -70,17 +70,13 @@ const AuthResetPassword = () => {
       initialValues={{
         password: '',
         confirmPassword: '',
-        submit: null,
+        submit: null
       }}
       validationSchema={Yup.object().shape({
         password: Yup.string().max(255).required('Password is required'),
         confirmPassword: Yup.string()
           .required('Confirm Password is required')
-          .test(
-            'confirmPassword',
-            'Both Password must be match!',
-            (confirmPassword, yup) => yup.parent.password === confirmPassword,
-          ),
+          .test('confirmPassword', 'Both Password must be match!', (confirmPassword, yup) => yup.parent.password === confirmPassword)
       })}
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
         try {
@@ -92,7 +88,7 @@ const AuthResetPassword = () => {
           const res = await resetPassword({
             code: router.query.code as string,
             password: values.password,
-            passwordConfirmation: values.confirmPassword,
+            passwordConfirmation: values.confirmPassword
           });
 
           // console.log(res);
@@ -103,10 +99,10 @@ const AuthResetPassword = () => {
               message: 'Successfuly reset password.',
               variant: 'alert',
               alert: {
-                color: 'success',
+                color: 'success'
               },
-              close: false,
-            }),
+              close: false
+            })
           );
 
           setTimeout(() => {
@@ -123,22 +119,12 @@ const AuthResetPassword = () => {
         }
       }}
     >
-      {({
-        errors,
-        handleBlur,
-        handleChange,
-        handleSubmit,
-        isSubmitting,
-        touched,
-        values,
-      }) => (
+      {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
         <form noValidate onSubmit={handleSubmit}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Stack spacing={1}>
-                <InputLabel htmlFor="password-reset">
-                  Your New Password
-                </InputLabel>
+                <InputLabel htmlFor="password-reset">Your New Password</InputLabel>
                 <OutlinedInput
                   fullWidth
                   error={Boolean(touched.password && errors.password)}
@@ -160,11 +146,7 @@ const AuthResetPassword = () => {
                         edge="end"
                         color="secondary"
                       >
-                        {showPassword ? (
-                          <EyeOutlined />
-                        ) : (
-                          <EyeInvisibleOutlined />
-                        )}
+                        {showPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
                       </IconButton>
                     </InputAdornment>
                   }
@@ -184,7 +166,7 @@ const AuthResetPassword = () => {
                         bgcolor: level?.color,
                         width: 85,
                         height: 8,
-                        borderRadius: '7px',
+                        borderRadius: '7px'
                       }}
                     />
                   </Grid>
@@ -198,14 +180,10 @@ const AuthResetPassword = () => {
             </Grid>
             <Grid item xs={12}>
               <Stack spacing={1}>
-                <InputLabel htmlFor="confirm-password-reset">
-                  Confirm New Password
-                </InputLabel>
+                <InputLabel htmlFor="confirm-password-reset">Confirm New Password</InputLabel>
                 <OutlinedInput
                   fullWidth
-                  error={Boolean(
-                    touched.confirmPassword && errors.confirmPassword,
-                  )}
+                  error={Boolean(touched.confirmPassword && errors.confirmPassword)}
                   id="confirm-password-reset"
                   type={showPassword ? 'text' : 'password'}
                   value={values.confirmPassword}
@@ -231,15 +209,7 @@ const AuthResetPassword = () => {
             )}
             <Grid item xs={12}>
               <AnimateButton>
-                <Button
-                  disableElevation
-                  disabled={isSubmitting}
-                  fullWidth
-                  size="large"
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                >
+                <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
                   Reset Password
                 </Button>
               </AnimateButton>

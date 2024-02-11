@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { GET_PROFILE, PROFILES } from './endpoints';
-import { UserProfile, reduceProfile } from 'models/auth';
+import { reduceProfile } from 'models/auth';
 
 const apiHost = process.env.NEXT_PUBLIC_API_URL;
 
@@ -46,38 +46,4 @@ export const apiReqWithAuth = async <Model = object>({
   };
 
   return apiReq({ endpoint, method, data, headers: _headers });
-};
-
-export const getProfiles = async (endpoint = PROFILES): Promise<UserProfile[]> => {
-  const res = await apiReqWithAuth<{ data: any[] }>({
-    method: 'GET',
-    endpoint: endpoint
-  });
-
-  const profiles = [];
-
-  for (let data of res.data.data) {
-    const profile = reduceProfile(data);
-
-    if (profile) {
-      profiles.push(profile);
-    }
-  }
-
-  return profiles;
-};
-
-export const getProfile = async (id: string): Promise<UserProfile> => {
-  const res = await apiReqWithAuth<{ data: any }>({
-    method: 'GET',
-    endpoint: GET_PROFILE(id)
-  });
-
-  const data = res.data.data;
-  const profile = reduceProfile(data);
-
-  if (profile) {
-    return profile;
-  }
-  return null;
 };

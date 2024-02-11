@@ -14,7 +14,7 @@ const useUser = () => {
     email: 'wrong@email.com',
     avatar: '',
     thumb: '',
-    role: 'UI/UX Designer',
+    role: 'UI/UX Designer'
   };
 
   return newUser;

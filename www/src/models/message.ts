@@ -1,11 +1,11 @@
-import { UserProfile } from './auth';
+import { User } from './auth';
 
 export type Message = {
   id: number;
   content: string;
-  fromUser: UserProfile;
+  fromUser: User;
   fullName: string;
-  toUser: UserProfile;
+  toUser: User;
   isContactMessage: boolean;
   contactEmail?: string;
   toUserRead: boolean;
@@ -59,12 +59,12 @@ export const reduceMessage = (data: any): Message | null => {
     if (data.attributes.fromUser.data) {
       const role = data.attributes.fromUser.data.attributes.user.data.attributes.role.data.attributes;
 
-      message.fromUser.user.role = role;
+      message.fromUser.role = role;
     }
     if (data.attributes.toUser.data) {
       const role = data.attributes.toUser.data.attributes.user.data.attributes.role.data.attributes;
 
-      message.toUser.user.role = role;
+      message.toUser.role = role;
     }
 
     return message;
@@ -102,18 +102,6 @@ export const removeAdminMessages = (messages: Message[]): Message[] => {
   for (const msg of messages) {
     if (msg.isContactMessage) {
       returnMsgs.push(msg);
-      continue;
-    }
-    try {
-      const fromUserRole = msg.fromUser.user.role.type;
-
-      if (fromUserRole !== 'admin' && fromUserRole !== 'member' && fromUserRole !== 'author' && fromUserRole !== 'organizer') {
-        returnMsgs.push(msg);
-      }
-    } catch (e) {
-      // returnMsgs.push(msg);
-
-      console.debug('Error removing admins messages');
       continue;
     }
   }

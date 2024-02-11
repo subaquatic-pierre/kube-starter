@@ -20,6 +20,7 @@
   "rules": {
     "react/jsx-filename-extension": "off",
     "no-param-reassign": "off",
+    "react/no-unescaped-entities": "off",
     "react/prop-types": "off",
     "react/require-default-props": "off",
     "react/no-array-index-key": "off",
@@ -41,7 +42,7 @@
       }
     ],
     "@typescript-eslint/no-unused-vars": [
-      "error",
+      "off",
       {
         "vars": "all",
         "args": "none"

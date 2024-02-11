@@ -8,7 +8,4 @@ export interface StringColorProps {
 
 export type StringBoolFunc = (s: string) => boolean;
 export type StringNumFunc = (s: string) => number;
-export type NumbColorFunc = (
-  n: number,
-  dict: any,
-) => StringColorProps | undefined;
+export type NumbColorFunc = (n: number, dict: any) => StringColorProps | undefined;

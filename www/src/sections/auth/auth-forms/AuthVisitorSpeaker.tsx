@@ -17,7 +17,6 @@ interface Props {
 }
 
 const AuthVisitorSpeaker: React.FC<Props> = ({ handleChange, value }) => {
-
   const { i18n } = useConfig();
   const dict = getDictionary(i18n);
 
@@ -28,13 +27,13 @@ const AuthVisitorSpeaker: React.FC<Props> = ({ handleChange, value }) => {
       sx={{
         '& .MuiToggleButton-root': {
           fontSize: { md: '2.4rem', xs: '2rem' },
-          p: { md: 3, xs: 2 },
+          p: { md: 3, xs: 2 }
         },
         '& button': {
           p: 2,
           fontSize: '1.2rem',
-          textTransform: 'none',
-        },
+          textTransform: 'none'
+        }
       }}
     >
       <Stack spacing={4}>
@@ -42,20 +41,10 @@ const AuthVisitorSpeaker: React.FC<Props> = ({ handleChange, value }) => {
           {dict.selectRegistrationType}
         </Typography>
         <Stack direction="row" spacing={2} justifyContent="center">
-          <Button
-            size="large"
-            variant="contained"
-            color="info"
-            onClick={() => handleChange('visitor')}
-          >
+          <Button size="large" variant="contained" color="info" onClick={() => handleChange('visitor')}>
             {dict.registerVisitor}
           </Button>
-          <Button
-            size="large"
-            variant="contained"
-            color="primary"
-            onClick={() => handleChange('speaker')}
-          >
+          <Button size="large" variant="contained" color="primary" onClick={() => handleChange('speaker')}>
             {dict.registerSpeaker}
           </Button>
         </Stack>

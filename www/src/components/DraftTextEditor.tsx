@@ -19,7 +19,7 @@ import {
   Stack,
   TextField,
   Tooltip,
-  Typography,
+  Typography
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import ReactQuillEditor from 'components/ReactQuillEditor';
@@ -41,32 +41,29 @@ const DraftTextEditor: React.FC<Props> = ({ content, setContent }) => {
     <Box
       sx={{
         '& .quill': {
-          bgcolor:
-            theme.palette.mode === ThemeMode.DARK ? 'dark.main' : 'grey.50',
+          bgcolor: theme.palette.mode === ThemeMode.DARK ? 'dark.main' : 'grey.50',
           borderRadius: '4px',
           '& .ql-toolbar': {
-            bgcolor:
-              theme.palette.mode === ThemeMode.DARK ? 'dark.light' : 'grey.100',
+            bgcolor: theme.palette.mode === ThemeMode.DARK ? 'dark.light' : 'grey.100',
             borderColor: theme.palette.divider,
             borderTopLeftRadius: '4px',
-            borderTopRightRadius: '4px',
+            borderTopRightRadius: '4px'
           },
           '& .ql-container': {
             borderColor: `${theme.palette.divider} !important`,
             borderBottomLeftRadius: '4px',
             borderBottomRightRadius: '4px',
             '& .ql-editor': {
-              minHeight: 200,
-            },
+              minHeight: 200
+            }
           },
           ...(theme.direction === ThemeDirection.RTL && {
-            '& .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg':
-              {
-                right: '0%',
-                left: 'inherit',
-              },
-          }),
-        },
+            '& .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg': {
+              right: '0%',
+              left: 'inherit'
+            }
+          })
+        }
       }}
     >
       <ReactQuillEditor content={content} setContent={setContent} />

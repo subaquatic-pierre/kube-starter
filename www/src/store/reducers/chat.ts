@@ -8,8 +8,8 @@ import { dispatch } from '../index';
 // types
 import { ChatStateProps } from 'types/chat';
 import { apiReqWithAuth } from 'lib/api';
-import { UserProfile } from 'models/auth';
-import { blankProfile, blankUser } from 'utils/blankData';
+import { blankUser } from 'utils/blankData';
+import { User } from 'models/auth';
 import { Message, reduceMessage, reduceMessages } from 'models/message';
 
 import { CREATE_MESSAGE, GET_MESSAGES, GET_USERS, GET_ADMINS } from 'lib/endpoints';
@@ -19,7 +19,7 @@ import { CREATE_MESSAGE, GET_MESSAGES, GET_USERS, GET_ADMINS } from 'lib/endpoin
 const initialState: ChatStateProps = {
   error: null,
   chats: [],
-  user: blankProfile as UserProfile,
+  user: blankUser,
   users: []
 };
 
@@ -44,7 +44,7 @@ const chat = createSlice({
 
     // GET USERS
     getUsersSuccess(state, action) {
-      const newUsers: UserProfile[] = [];
+      const newUsers = [];
       for (const user of action.payload) {
         if (state.users.findIndex((el) => el.id === user.id) === -1) {
           newUsers.push(user);
@@ -59,7 +59,7 @@ const chat = createSlice({
 
     addUserSuccess(state, action) {
       const newUser = action.payload;
-      const newUsers: UserProfile[] = [];
+      const newUsers = [];
       if (state.users.findIndex((el) => el.id === newUser.id) === -1) {
         newUsers.push(action.payload);
       }
@@ -84,19 +84,19 @@ export default chat.reducer;
 
 // ==============================|| CHAT - API CALL ||============================== //
 
-const sortUsers = (users: UserProfile[]) => {
+const sortUsers = (users: any[]) => {
   // sort alphabetical
   users.sort((a, b) => (a.firstName > b.firstName ? -1 : 1));
   // Sort contact user with id always first user
   users.sort((el) => (el.id === 0 ? -1 : 1));
 };
 
-const removeAdminsFromUsers = async (users: UserProfile[]) => {
+const removeAdminsFromUsers = async (users: User[]) => {
   const res = await apiReqWithAuth<{
     data: {
-      superAdmins: UserProfile[];
-      memberAdmins: UserProfile[];
-      authorAdmins: UserProfile[];
+      superAdmins: User[];
+      memberAdmins: User[];
+      authorAdmins: User[];
     };
   }>({
     endpoint: GET_ADMINS,
@@ -120,14 +120,14 @@ const removeAdminsFromUsers = async (users: UserProfile[]) => {
   return filtered;
 };
 
-const getUsersFromMessages = (messages: Message[]): UserProfile[] => {
-  const users: UserProfile[] = [];
+const getUsersFromMessages = (messages: Message[]): User[] => {
+  const users: User[] = [];
 
   // Add contact user first
-  users.push(blankProfile);
+  users.push(blankUser);
 
   for (const message of messages) {
-    if (message.isContactMessage || !message.fromUser) {
+    if (message.isContactMessage) {
       continue;
     } else {
       users.push(message.fromUser);
@@ -217,7 +217,7 @@ export function getUsers() {
   };
 }
 
-export function addUser(user: UserProfile) {
+export function addUser(user: User) {
   return async () => {
     try {
       dispatch(chat.actions.addUserSuccess(user));

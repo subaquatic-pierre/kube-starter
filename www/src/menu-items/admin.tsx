@@ -8,7 +8,7 @@ import {
   CalendarOutlined,
   MessageOutlined,
   CameraOutlined,
-  AimOutlined,
+  AimOutlined
 } from '@ant-design/icons';
 
 // type
@@ -28,51 +28,51 @@ const admin: NavItemType = {
       title: 'Dashboard',
       type: 'item',
       icon: DashboardOutlined,
-      url: '/admin',
+      url: '/admin'
     },
     {
       id: 'scanner',
       title: 'Scanner',
       type: 'item',
       icon: CameraOutlined,
-      url: '/admin/scanner',
+      url: '/admin/scanner'
     },
     {
       id: 'schedule',
       title: 'Schedule',
       type: 'item',
       url: '/admin/schedule',
-      icon: CalendarOutlined,
+      icon: CalendarOutlined
     },
     {
       id: 'records',
       title: 'Attendance',
       type: 'item',
       url: '/admin/records',
-      icon: AimOutlined,
+      icon: AimOutlined
     },
     {
       id: 'messages',
       title: 'Messages',
       type: 'item',
       url: '/admin/messages',
-      icon: MessageOutlined,
+      icon: MessageOutlined
     },
     {
       id: 'visitors',
       title: 'Visitors',
       type: 'item',
       icon: UserDeleteOutlined,
-      url: '/admin/visitors',
+      url: '/admin/visitors'
     },
     {
       id: 'speakers',
       title: 'Speakers',
       type: 'item',
       icon: UserSwitchOutlined,
-      url: '/admin/speakers',
-    },
-  ],
+      url: '/admin/speakers'
+    }
+  ]
 };
 
 export default admin;

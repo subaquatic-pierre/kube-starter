@@ -1,11 +1,10 @@
-from datetime import datetime
 from typing import Annotated, List
 from fastapi import APIRouter, Depends, Request, status, HTTPException
 from bson.objectid import ObjectId
 
 from models.user import User
 from schemas.user import UserSchema, UpdateUserReq, DeleteUserRes
-from auth.utils import get_token_from_request, hash_password, get_current_user
+from auth.utils import hash_password, authorize_req
 
 
 router = APIRouter()
@@ -13,20 +12,22 @@ router = APIRouter()
 
 @router.get("/")
 async def list_users(req: Request) -> List[UserSchema]:
+    # authorize_req(req)
     users = User.find_many()
     return [user.to_json() for user in users]
 
 
 @router.get("/{id}")
-async def get_user(id: str) -> UserSchema:
+async def get_user(req: Request, id: str) -> UserSchema:
+    # authorize_req(req)
     user = User.find_one({"_id": ObjectId(id)})
     return user.to_json()
 
 
 @router.put("/{id}")
 async def update_user(id: str, body: UpdateUserReq) -> UserSchema:
+    # authorize_req(req)
     user = User.find_one({"_id": ObjectId(id)})
-    print(body)
     if user:
         for attr, value in body:
             if value:
@@ -34,8 +35,6 @@ async def update_user(id: str, body: UpdateUserReq) -> UserSchema:
                     setattr(user, "hashed_password", hash_password(value))
                 else:
                     setattr(user, attr, value)
-
-                user.updated_at = datetime.utcnow()
 
         result = user.save()
         updated_user = User.find_one({"_id": result.inserted_id})
@@ -57,9 +56,10 @@ async def update_user(id: str, body: UpdateUserReq) -> UserSchema:
 
 @router.delete("/{id}")
 async def delete_user(id: str) -> DeleteUserRes:
+    # authorize_req(req)
     delete_res = User.delete(id)
 
     return {
-        "success": delete_res.acknowledged,
+        "success": "success" if delete_res.acknowledged else "failed",
         "deleted_count": delete_res.deleted_count,
     }

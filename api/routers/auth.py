@@ -11,7 +11,12 @@ from auth.utils import (
     get_current_user,
 )
 from models.user import User
-from schemas.user import RegisterUserReq, RegsiterUserRes, LoginUserReq, LoginUserRes
+from schemas.user import (
+    RegisterUserReq,
+    RegsiterUserRes,
+    LoginUserReq,
+    LoginUserRes,
+)
 from schemas.token import TokenRes, RefreshTokenReq
 from auth.utils import get_token_from_request
 
@@ -36,7 +41,6 @@ async def regsiter(body: RegisterUserReq) -> RegsiterUserRes:
             status_code=status.HTTP_400_BAD_REQUEST, detail="Passwords do not match"
         )
 
-    now = datetime.utcnow()
     new_data = {
         "id": None,
         "name": body.name,
@@ -45,8 +49,6 @@ async def regsiter(body: RegisterUserReq) -> RegsiterUserRes:
         "disabled": False,
         "hashed_password": hash_password(body.password),
         "role": "user",
-        "created_at": now,
-        "updated_at": now,
     }
 
     new_user = User(**new_data)

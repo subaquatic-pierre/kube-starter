@@ -1,12 +1,9 @@
-from datetime import datetime
-from pydantic import BaseModel, constr, EmailStr
-from bson.objectid import ObjectId
+from pydantic import constr, EmailStr
 
-from models.model import ModelId
+from schemas.base import BaseSchema, BaseModelSchema
 
 
-class UserSchema(BaseModel):
-    id: ModelId
+class UserSchema(BaseModelSchema):
     name: str
     email: EmailStr
 
@@ -15,38 +12,36 @@ class UserSchema(BaseModel):
 
     hashed_password: str | None = None
     role: str | None = None
-    created_at: datetime | None = None
-    updated_at: datetime | None = None
 
 
-class RegisterUserReq(BaseModel):
+class RegisterUserReq(BaseSchema):
     name: str
     email: str
     password: constr(min_length=8)
     password_confirm: str
 
 
-class RegsiterUserRes(BaseModel):
+class RegsiterUserRes(BaseSchema):
     status: str
-    user: UserSchema
+    user: UserSchema | None
 
 
-class LoginUserRes(BaseModel):
+class LoginUserRes(BaseSchema):
     token: str
-    user: UserSchema
+    user: UserSchema | None
 
 
-class LoginUserReq(BaseModel):
+class LoginUserReq(BaseSchema):
     email: EmailStr
     password: constr(min_length=8)
 
 
-class UpdateUserReq(BaseModel):
+class UpdateUserReq(BaseSchema):
     password: constr(min_length=8) | None = None
     role: str | None = None
     name: str | None = None
 
 
-class DeleteUserRes(BaseModel):
-    success: bool
+class DeleteUserRes(BaseSchema):
+    status: str
     deleted_count: int

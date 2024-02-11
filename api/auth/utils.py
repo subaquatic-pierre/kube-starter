@@ -77,3 +77,13 @@ def get_token_from_request(request: Request) -> User:
         raise credentials_exception
 
     return token
+
+
+def authorize_req(request: Request):
+    token = get_token_from_request(request)
+    user = get_current_user(token)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Unable to access resource",
+        )

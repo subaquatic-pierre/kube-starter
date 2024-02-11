@@ -1,9 +1,9 @@
-from pydantic import BaseModel
+from schemas.base import BaseSchema, BaseModelSchema
 
 
-class IndexRes(BaseModel):
+class IndexRes(BaseSchema):
     status: str
 
 
-class IndexReq(BaseModel):
+class IndexReq(BaseSchema):
     name: str

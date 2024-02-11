@@ -1,9 +1,9 @@
-from pydantic import BaseModel
+from schemas.base import BaseSchema
 
 
-class TokenRes(BaseModel):
+class TokenRes(BaseSchema):
     token: str
 
 
-class RefreshTokenReq(BaseModel):
+class RefreshTokenReq(BaseSchema):
     token: str

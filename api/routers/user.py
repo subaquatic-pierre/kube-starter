@@ -60,6 +60,6 @@ async def delete_user(id: str) -> DeleteUserRes:
     delete_res = User.delete(id)
 
     return {
-        "success": "success" if delete_res.acknowledged else "failed",
-        "deleted_count": delete_res.deleted_count,
+        "status": "success" if delete_res.acknowledged else "failed",
+        "deleteCount": delete_res.deleted_count,
     }

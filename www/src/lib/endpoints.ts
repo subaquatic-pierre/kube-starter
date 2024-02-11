@@ -5,16 +5,16 @@ const populateUserParams =
 export const GET_USERS = `/api/profiles?${populateUserParams}`;
 export const GET_ADMINS = `/api/profiles/admins`;
 
-export const PROFILE = '/cms/profiles/me';
-export const PROFILES = '/cms/profiles?populate[0]=user.role';
-export const REGISTER = '/cms/auth/local/register';
-export const LOGIN = '/cms/auth/local';
-export const FORGOT_PASSWORD = '/cms/auth/forgot-password';
-export const RESET_PASSWORD = '/cms/auth/reset-password';
-export const USER = '/cms/users/me?populate[0]=role';
-export const EMAIL_CONFIRMATION = '/cms/auth/send-email-confirmation';
+export const PROFILE = '/api/profiles/me';
+export const PROFILES = '/api/profiles?populate[0]=user.role';
+export const REGISTER = '/api/auth/local/register';
+export const LOGIN = '/api/auth/local';
+export const FORGOT_PASSWORD = '/api/auth/forgot-password';
+export const RESET_PASSWORD = '/api/auth/reset-password';
+export const USER = '/api/users/me?populate[0]=role';
+export const EMAIL_CONFIRMATION = '/api/auth/send-email-confirmation';
 
-export const GET_PROFILE = (id: string) => `/cms/profiles/${id}?${populateUserParams}`;
+export const GET_PROFILE = (id: string) => `/api/profiles/${id}?${populateUserParams}`;
 
 // Message Endpoints
 // Message endpoints

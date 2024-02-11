@@ -67,6 +67,6 @@ async def delete_project(id: str) -> DeleteProjectRes:
     delete_res = Project.delete(id)
 
     return {
-        "success": "success" if delete_res.acknowledged else "failed",
-        "deleted_count": delete_res.deleted_count,
+        "status": "success" if delete_res.acknowledged else "failed",
+        "deleteCount": delete_res.deleted_count,
     }

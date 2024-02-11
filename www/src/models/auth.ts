@@ -6,12 +6,11 @@ export type User = {
   id: number;
   username: string;
   email: string;
-  provider: string;
-  confirmed: boolean;
-  blocked: boolean;
+  verified: boolean;
+  disabled: boolean;
   createdAt: string;
   updatedAt: string;
-  role: UserRole;
+  role: UserRoleEnum;
 };
 
 export type UserProfile = {
@@ -25,15 +24,6 @@ export type UserProfile = {
   contact: string | null;
   status: UserProfileStatus | undefined;
   user: User;
-};
-
-export type UserRole = {
-  id: number;
-  name: string;
-  description: string;
-  type: UserRoleEnum;
-  createdAt: string;
-  updatedAt: string;
 };
 
 export type UserRoleEnum = 'visitor' | 'speaker' | 'member' | 'admin' | 'author' | 'organizer';

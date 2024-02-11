@@ -2,7 +2,7 @@ import { createContext, ReactNode, useEffect, useState } from 'react';
 
 // project import
 import { sleep } from 'utils/sleep';
-import { JWTToken, User, UserProfile, UserRole, UserRoleEnum } from 'models/auth';
+import { JWTToken, User, UserProfile, UserRoleEnum } from 'models/auth';
 import { getTokenFromStorage, isTokenExpired, parseToken, setTokenInStorage } from 'utils/jwt';
 import { apiReq } from 'lib/api';
 import { PROFILE, USER } from 'lib/endpoints';
@@ -16,7 +16,7 @@ import { getProfileStatus } from 'lib/utils';
 type AuthContextProps = {
   role: UserRoleEnum | null;
   user: User;
-  profile: UserProfile;
+  // profile: UserProfile;
   loading: boolean;
   error: object | string | null;
   setLoading: (state: boolean) => void;
@@ -28,7 +28,7 @@ const initialState: AuthContextProps = {
   loading: true,
   error: null,
   user: {} as User,
-  profile: {} as UserProfile,
+  // profile: {} as UserProfile,
   setLoading: (state: boolean) => {},
   reloadProfile: () => {}
 };
@@ -137,23 +137,24 @@ function AuthContextProvider({ children }: ConfigProviderProps) {
     }
 
     const user = await getUser(token);
-    const profile = await getProfile(token);
+    // const profile = await getProfile(token);
 
     await sleep(1);
 
     // Return early if failed get get user from API
-    if (user && profile) {
+    // if (user && profile) {
+    if (user) {
       setTokenInStorage(token);
 
       try {
-        const role = user.role ? user.role.type : profile.user.role.type;
+        const role = user.role;
 
         setAuthState((old) => ({
           ...old,
           loading: false,
           role: role as UserRoleEnum,
-          user,
-          profile
+          user
+          // profile
         }));
       } catch (e) {
         setTokenInStorage(null);

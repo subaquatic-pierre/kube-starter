@@ -1,4 +1,6 @@
 from pydantic import constr, EmailStr
+from typing_extensions import Annotated
+from pydantic import BaseModel, StringConstraints
 
 from schemas.base import BaseSchema, BaseModelSchema
 
@@ -17,7 +19,7 @@ class UserSchema(BaseModelSchema):
 class RegisterUserReq(BaseSchema):
     name: str
     email: str
-    password: constr(min_length=8)
+    password: Annotated[str, StringConstraints(min_length=8)]
     password_confirm: str
 
 
@@ -33,11 +35,11 @@ class LoginUserRes(BaseSchema):
 
 class LoginUserReq(BaseSchema):
     email: EmailStr
-    password: constr(min_length=8)
+    password: Annotated[str, StringConstraints(min_length=8)]
 
 
 class UpdateUserReq(BaseSchema):
-    password: constr(min_length=8) | None = None
+    password: Annotated[str, StringConstraints(min_length=8)] | None = None
     role: str | None = None
     name: str | None = None
 

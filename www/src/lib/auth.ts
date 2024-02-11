@@ -18,7 +18,7 @@ interface ForgotPasswordArgs {
   email: string;
 }
 
-type LoginResponse = { jwt: string; user: User | null };
+type LoginResponse = { token: string; user: User | null };
 type RegisterResponse = {
   user: {
     id: number;
@@ -27,7 +27,7 @@ type RegisterResponse = {
 
 export const login = async ({ email, password }: LoginArgs): Promise<ApiResponse<LoginResponse>> => {
   const data = {
-    identifier: email,
+    email,
     password
   };
   return apiReq<LoginResponse>({ endpoint: LOGIN, method: 'POST', data });

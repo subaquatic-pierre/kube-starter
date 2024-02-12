@@ -12,7 +12,6 @@ import Layout from 'layout';
 import Page from 'components/Page';
 import LoginFormLayout from 'sections/auth/LoginFormLayout';
 import AuthRegister from 'sections/auth/auth-forms/AuthRegister';
-import AuthVisitorSpeaker from 'sections/auth/auth-forms/AuthVisitorSpeaker';
 import AnimateButton from 'components/@extended/AnimateButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import { register } from 'lib/auth';
@@ -36,8 +35,8 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
 
   const validation = Yup.object().shape({
-    email: Yup.string().email(dict.emailValidation1).max(255).required(dict.emailValidation2),
-    password: Yup.string().max(255).required(dict.passwordValidation)
+    email: Yup.string().email().max(255).required(),
+    password: Yup.string().max(255).required()
   });
 
   const handleSubmit = async (values: any) => {

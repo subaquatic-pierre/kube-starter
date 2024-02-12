@@ -8,7 +8,6 @@ import { Container, Toolbar } from '@mui/material';
 import { openComponentDrawer } from 'store/reducers/menu';
 
 // project import
-import ComponentLayout from './ComponentLayout';
 import MainLayout from './MainLayout';
 
 const Header = lazy(() => import('./Header'));
@@ -61,9 +60,11 @@ export default function Layout({ variant = 'main', admin = true, children }: Pro
   if (variant === 'guest') {
     return (
       <Suspense fallback={<Loader />}>
-        <Header layout={variant} />
-        {children}
-        <FooterBlock isFull={variant === 'guest'} />
+        <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <Header layout={variant} />
+          {children}
+          <FooterBlock isFull={variant === 'guest'} />
+        </Box>
       </Suspense>
     );
   }

@@ -23,7 +23,7 @@ const HeaderPage = () => {
   const theme = useTheme();
 
   return (
-    <Container sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
+    <Container sx={{ minHeight: '91vh', display: 'flex', alignItems: 'center' }}>
       <Grid container alignItems="center" justifyContent="space-between" spacing={2} sx={{ pt: { md: 0, xs: 8 }, pb: { md: 0, xs: 5 } }}>
         <Grid item xs={12} lg={5} md={6}>
           <Grid container spacing={2} sx={{ pr: 10, [theme.breakpoints.down('md')]: { pr: 0, textAlign: 'center' } }}>

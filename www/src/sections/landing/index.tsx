@@ -20,8 +20,7 @@ const Landing = () => {
       <Box
         sx={{
           position: 'relative',
-          overflow: 'hidden',
-          minHeight: '100vh'
+          overflow: 'hidden'
         }}
       >
         <CardMedia

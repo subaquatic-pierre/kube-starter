@@ -29,7 +29,7 @@ export default function ThemeCustomization({ children }: ThemeCustomizationProps
   const themeTypography: TypographyVariantsOptions = useMemo<TypographyVariantsOptions>(
     () => Typography(mode, fontFamily, theme),
     // eslint-disable-next-line
-      [mode, fontFamily],
+    [mode, fontFamily]
   );
   const themeCustomShadows: CustomShadowProps = useMemo<CustomShadowProps>(() => CustomShadows(theme), [theme]);
 

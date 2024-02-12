@@ -67,17 +67,17 @@ const FooterBlock = ({ isFull }: showProps) => {
   return (
     <Box
       sx={{
-        py: 1.5,
-        bgcolor: theme.palette.mode === ThemeMode.DARK ? theme.palette.grey[50] : theme.palette.grey[800]
+        py: 4
+        // bgcolor: theme.palette.mode === ThemeMode.DARK ? theme.palette.grey[50] : theme.palette.grey[700]
       }}
     >
       <Container>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={8}>
-            <Typography color="white">Nebula Nexus - Unleashing Innovation in the Cloud</Typography>
+            <Typography>Nebula Nexus - Unleashing Innovation in the Cloud</Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
-            <Grid container spacing={2} alignItems="center" sx={{ justifyContent: 'flex-end', color: 'white' }}>
+            <Grid container spacing={2} alignItems="center" sx={{ justifyContent: 'flex-end' }}>
               <Grid item>
                 <Link underline="none" href="https://www.linkedin.com/in/subaquatic-pierre/" target="_blank" sx={linkSX}>
                   <LinkedinFilled style={{ fontSize: '200%' }} />

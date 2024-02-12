@@ -35,7 +35,7 @@ const HeaderContent = () => {
       {/* <Notification /> */}
       {!downLG && (
         <>
-          <LanguageSelect />
+          {/* <LanguageSelect /> */}
           <Profile />
         </>
       )}

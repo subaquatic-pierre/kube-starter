@@ -29,49 +29,49 @@ const admin: NavItemType = {
       type: 'item',
       icon: DashboardOutlined,
       url: '/admin'
-    },
-    {
-      id: 'scanner',
-      title: 'Scanner',
-      type: 'item',
-      icon: CameraOutlined,
-      url: '/admin/scanner'
-    },
-    {
-      id: 'schedule',
-      title: 'Schedule',
-      type: 'item',
-      url: '/admin/schedule',
-      icon: CalendarOutlined
-    },
-    {
-      id: 'records',
-      title: 'Attendance',
-      type: 'item',
-      url: '/admin/records',
-      icon: AimOutlined
-    },
-    {
-      id: 'messages',
-      title: 'Messages',
-      type: 'item',
-      url: '/admin/messages',
-      icon: MessageOutlined
-    },
-    {
-      id: 'visitors',
-      title: 'Visitors',
-      type: 'item',
-      icon: UserDeleteOutlined,
-      url: '/admin/visitors'
-    },
-    {
-      id: 'speakers',
-      title: 'Speakers',
-      type: 'item',
-      icon: UserSwitchOutlined,
-      url: '/admin/speakers'
     }
+    // {
+    //   id: 'scanner',
+    //   title: 'Scanner',
+    //   type: 'item',
+    //   icon: CameraOutlined,
+    //   url: '/admin/scanner'
+    // },
+    // {
+    //   id: 'schedule',
+    //   title: 'Schedule',
+    //   type: 'item',
+    //   url: '/admin/schedule',
+    //   icon: CalendarOutlined
+    // },
+    // {
+    //   id: 'records',
+    //   title: 'Attendance',
+    //   type: 'item',
+    //   url: '/admin/records',
+    //   icon: AimOutlined
+    // },
+    // {
+    //   id: 'messages',
+    //   title: 'Messages',
+    //   type: 'item',
+    //   url: '/admin/messages',
+    //   icon: MessageOutlined
+    // },
+    // {
+    //   id: 'visitors',
+    //   title: 'Visitors',
+    //   type: 'item',
+    //   icon: UserDeleteOutlined,
+    //   url: '/admin/visitors'
+    // },
+    // {
+    //   id: 'speakers',
+    //   title: 'Speakers',
+    //   type: 'item',
+    //   icon: UserSwitchOutlined,
+    //   url: '/admin/speakers'
+    // }
   ]
 };
 

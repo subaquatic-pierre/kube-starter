@@ -10,11 +10,11 @@ import { UserRoleEnum } from 'models/auth';
 type MenuItems = { items: NavItemType[] };
 
 const adminMenuItems: { items: NavItemType[] } = {
-  items: [admin, profile]
+  items: [admin]
 };
 
 const userMenuItems: { items: NavItemType[] } = {
-  items: [profile]
+  items: [admin]
 };
 
 const getMenuItems = (role: UserRoleEnum | null): MenuItems => {

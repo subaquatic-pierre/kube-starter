@@ -1,5 +1,5 @@
 {
-  "register": "Register",  
+  "register": "Register",
   "alreadyHaveAccount": "Already have an account?",
   "selectStatus": "Select status",
   "createAccount": "Create account",
@@ -25,6 +25,6 @@
   "selectRegistrationType": "Click on the button bellow to continue:",
   "registerVisitor": "Register as a visitor",
   "registerSpeaker": "Register as a speaker",
-  "registerVideoTitle":"Introductory video on how to register",
-  "registerVideoText":" Please check the video guide for your registration."
+  "registerVideoTitle": "Introductory video on how to register",
+  "registerVideoText": " Please check the video guide for your registration."
 }

@@ -84,7 +84,7 @@ const Header = ({ handleDrawerOpen, layout, ...others }: Props) => {
 
   return (
     <ElevationScroll layout={layout} {...others}>
-      <AppBar sx={{ bgcolor: 'transparent', color: theme.palette.text.primary, boxShadow: 'none' }}>
+      <AppBar>
         <Container disableGutters={matchDownMd}>
           <Toolbar sx={{ px: { xs: 1.5, md: 0, lg: 0 } }}>
             <Stack direction="row" sx={{ flexGrow: 1, display: { xs: 'none', md: 'block' } }} alignItems="center">

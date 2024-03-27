@@ -117,3 +117,8 @@ async def get_me(req: Request):
     token = get_token_from_request(req)
     user = get_current_user(token)
     return user.to_json()
+
+@router.get("/site-settings")
+async def get_me(req: Request):
+    return {"token": "token"}
+    

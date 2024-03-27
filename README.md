@@ -1,7 +1,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![GitHub issues](https://img.shields.io/github/issues/subaquatic-pierre/kube-starter.svg)](https://github.com/subaquatic-pierre/kube-starter/issues)
-[![GitHub stars](https://img.shields.io/github/stars/subaquatic-pierre/kube-starter.svg)](https://github.com/subaquatic-pierre/kube-starter/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/subaquatic-pierre/kube-starter.svg)](https://github.com/subaquatic-pierre/kube-starter/network)
+[![GitHub issues](https://img.shields.io/github/issues/subaquatic-pierre/fastpyfolio.svg)](https://github.com/subaquatic-pierre/fastpyfolio/issues)
+[![GitHub stars](https://img.shields.io/github/stars/subaquatic-pierre/fastpyfolio.svg)](https://github.com/subaquatic-pierre/fastpyfolio/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/subaquatic-pierre/fastpyfolio.svg)](https://github.com/subaquatic-pierre/fastpyfolio/network)
 
 # Kube Starter
 
@@ -57,8 +57,8 @@ To get started with Kube Starter, make sure you have the following installed:
 Clone the repository:
 
 ```sh
-git clone https://github.com/subaquatic-pierre/kube-starter.git
-cd kube-starter
+git clone https://github.com/subaquatic-pierre/fastpyfolio.git
+cd fastpyfolio
 ```
 
 ## Project Structure

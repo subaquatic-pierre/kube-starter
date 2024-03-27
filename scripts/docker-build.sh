@@ -32,13 +32,7 @@ run_build(){
   # Push image to docker hub
   docker push $full_repo
 
-  # Update package.json version
-#   jq '."version" = "'"$version"'"' package.json > package.json.tmp
-#   mv package.json.tmp package.json
 }
-
-# Usage:
-#   build-docker 0.12                   
 
 run() {
     version="$1"
@@ -46,9 +40,9 @@ run() {
     [ -z "$version" ] && die "Version tag not specified."
 
     # --- ADMIN BACKEND ---
-    docker_user="docker-user"
-    api_repo="$(docker_user)/kube-starter-api"
-    www_repo="$(docker_user)/kube-starter-www"
+    docker_user="subaquaticpierre"
+    api_repo="$docker_user/fastpyfolio-api"
+    www_repo="$docker_user/fastpyfolio-www"
 
     # Move to the api directory.
     pushd_quiet "api"
@@ -57,7 +51,7 @@ run() {
     popd_quiet
 
     # Move to the www directory.
-    pushd_quiet "api"
+    pushd_quiet "www"
     run_build "$www_repo" "$version"
     # Back to workdir.
     popd_quiet

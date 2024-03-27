@@ -6,22 +6,22 @@ items:
     kind: Deployment
     metadata:
       labels:
-        app: kube-starter-mongodb
-      name: kube-starter-mongodb
-      namespace: kube-starter
+        app: fastpyfolio-mongodb
+      name: fastpyfolio-mongodb
+      namespace: fastpyfolio
     spec:
       replicas: 1
       selector:
         matchLabels:
-          app: kube-starter-mongodb
+          app: fastpyfolio-mongodb
       template:
         metadata:
           labels:
-            app: kube-starter-mongodb
-            selector: kube-starter-mongodb
+            app: fastpyfolio-mongodb
+            selector: fastpyfolio-mongodb
         spec:
           containers:
-            - name: kube-starter-mongodb
+            - name: fastpyfolio-mongodb
               image: mongo:6.0
               env:
                 - name: MONGO_INITDB_ROOT_USERNAME_FILE
@@ -42,7 +42,7 @@ items:
                   mountPath: /data/db
 
           nodeSelector:
-            name: thor-vm-demo1
+            name: orion
 
           volumes:
             - name: k8-test
@@ -86,7 +86,7 @@ items:
     apiVersion: storage.k8s.io/v1
     metadata:
       name: mongodb-storageclass
-      namespace: kube-starter
+      namespace: fastpyfolio
     provisioner: kubernetes.io/no-provisioner
     volumeBindingMode: WaitForFirstConsumer
     allowVolumeExpansion: true
@@ -97,7 +97,7 @@ items:
     kind: PersistentVolume
     metadata:
       name: mongodb-pv
-      namespace: kube-starter
+      namespace: fastpyfolio
     spec:
       capacity:
         storage: 2Gi
@@ -107,7 +107,7 @@ items:
       persistentVolumeReclaimPolicy: Retain
       storageClassName: mongodb-storageclass
       local:
-        path: /mnt/data
+        path: /data/fastpyfolio/mongodb
       nodeAffinity:
         required:
           nodeSelectorTerms:
@@ -115,7 +115,7 @@ items:
                 - key: kubernetes.io/hostname
                   operator: In
                   values:
-                    - aws-ec2-instance
+                    - orion
 
   # --- PERSISTENT VOLUME CLAIM ---
 
@@ -123,7 +123,7 @@ items:
     apiVersion: v1
     metadata:
       name: mongodb-pvc
-      namespace: kube-starter
+      namespace: fastpyfolio
     spec:
       storageClassName: mongodb-storageclass
       accessModes:
@@ -135,7 +135,7 @@ items:
           storage: 2Gi
       selector:
         matchLabels:
-          kubernetes.io/hostname: aws-ec2-instance
+          kubernetes.io/hostname: orion
 
   # --- CONFIG MAP ---
 
@@ -143,7 +143,7 @@ items:
     kind: ConfigMap
     metadata:
       name: mongodb-configmap
-      namespace: thor
+      namespace: fastpyfolio
     data:
       mongo.conf: |
         storage:

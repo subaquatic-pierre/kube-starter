@@ -6,17 +6,17 @@ items:
     kind: Service
     metadata:
       labels:
-        app: kube-starter-api
-      name: kube-starter-api
-      namespace: kube-starter
+        app: fastpyfolio-api
+      name: fastpyfolio-api
+      namespace: fastpyfolio
     spec:
       ports:
-        - nodePort: 31700
+        - nodePort: 31701
           port: 8001
           protocol: TCP
           targetPort: 8001
       selector:
-        app: kube-starter-api
+        app: fastpyfolio-api
       type: NodePort
 
   # --- WWW FRONTEND ---
@@ -25,9 +25,9 @@ items:
     kind: Service
     metadata:
       labels:
-        app: kube-starter-www
-      name: kube-starter-www
-      namespace: kube-starter
+        app: fastpyfolio-www
+      name: fastpyfolio-www
+      namespace: fastpyfolio
     spec:
       ports:
         - nodePort: 31700
@@ -35,7 +35,7 @@ items:
           protocol: TCP
           targetPort: 8000
       selector:
-        app: kube-starter-www
+        app: fastpyfolio-www
       type: NodePort
 
   # --- MONGO DB ---
@@ -43,19 +43,19 @@ items:
   - apiVersion: v1
     kind: Service
     metadata:
-      namespace: kube-starter
-      name: kube-starter-mongodb
+      namespace: fastpyfolio
+      name: fastpyfolio-mongodb
       labels:
-        app: kube-starter-mongodb-svc
+        app: fastpyfolio-mongodb-svc
     spec:
       type: NodePort
       selector:
-        app: kube-starter-mongodb
+        app: fastpyfolio-mongodb
 
       ports:
         - port: 27017
           targetPort: 27017
-          nodePort: 31706
+          nodePort: 31702
 
 kind: List
 metadata:

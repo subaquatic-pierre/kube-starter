@@ -21,7 +21,7 @@ const config: DefaultConfigProps = {
   miniDrawer: false,
   container: true,
   mode: ThemeMode.DARK,
-  presetColor: 'default',
+  presetColor: 'theme2',
   themeDirection: ThemeDirection.LTR
 };
 

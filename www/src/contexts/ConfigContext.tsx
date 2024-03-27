@@ -31,7 +31,7 @@ type ConfigProviderProps = {
 
 function ConfigProvider({ children }: ConfigProviderProps) {
   // const [config, setConfig] = useState(initialState);
-  const [config, setConfig] = useLocalStorage('raktda-dashboard-config', initialState);
+  const [config, setConfig] = useLocalStorage('fastpyfolio-config', initialState);
 
   const onChangeContainer = () => {
     setConfig({

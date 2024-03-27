@@ -4,7 +4,7 @@ import { ReactElement } from 'react';
 import { Container, Grid } from '@mui/material';
 
 // project imports
-import Layout from 'layout';
+import Layout from 'layouts';
 import Page from 'components/Page';
 import ContactForm from 'sections/contact-us/ContactForm';
 import ContactHeader from 'sections/contact-us/ContactHeader';

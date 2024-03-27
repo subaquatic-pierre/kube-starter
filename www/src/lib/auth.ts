@@ -61,9 +61,10 @@ export const resetPassword = async ({ code, password, passwordConfirmation }: Re
 
 export const register = async ({ email, password }: LoginArgs): Promise<ApiResponse<RegisterResponse>> => {
   const data = {
-    username: generateId(),
+    name: generateId(),
     email: email,
-    password
+    password,
+    passwordConfirm: password
   };
   return apiReq<RegisterResponse>({ endpoint: REGISTER, method: 'POST', data });
 };

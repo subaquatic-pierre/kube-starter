@@ -1,0 +1,11 @@
+a {
+  all: unset;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+body {
+  overflow-x: hidden;
+}

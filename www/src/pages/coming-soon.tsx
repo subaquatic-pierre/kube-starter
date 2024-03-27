@@ -8,7 +8,7 @@ import NextLink from 'next/link';
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 
 // project import
-import Layout from 'layout';
+import Layout from 'layouts';
 import Page from 'components/Page';
 import { basePath } from 'utils/const';
 

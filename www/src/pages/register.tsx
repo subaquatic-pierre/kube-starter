@@ -8,7 +8,7 @@ import { NextPageContext } from 'next';
 import { Button, Step, Stepper, StepLabel, Stack, Typography, Grid, Link, FormControlLabel, Checkbox, Box } from '@mui/material';
 
 // project import
-import Layout from 'layout';
+import Layout from 'layouts';
 import Page from 'components/Page';
 import LoginFormLayout from 'sections/auth/LoginFormLayout';
 import AuthRegister from 'sections/auth/auth-forms/AuthRegister';

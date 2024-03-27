@@ -4,7 +4,7 @@ import NextLink from 'next/link';
 // material-ui
 import { Grid, Link, Stack, Typography } from '@mui/material';
 
-import Layout from 'layout';
+import Layout from 'layouts';
 import Page from 'components/Page';
 import LoginFormLayout from 'sections/auth/LoginFormLayout';
 import AuthConfirmationSent from 'sections/auth/auth-forms/AuthConfirmationSent';

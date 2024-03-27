@@ -6,7 +6,7 @@ import NextLink from 'next/link';
 import { Grid, Link, Stack, Typography } from '@mui/material';
 
 // project import
-import Layout from 'layout';
+import Layout from 'layouts';
 import Page from 'components/Page';
 import LoginFormLayout from 'sections/auth/LoginFormLayout';
 import AuthLogin from 'sections/auth/auth-forms/AuthLogin';

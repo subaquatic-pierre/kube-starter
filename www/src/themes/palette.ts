@@ -64,12 +64,22 @@ const Palette = (mode: ThemeMode, presetColor: PresetColor) => {
   ];
   let greyAscent = ['#fafafa', '#bfbfbf', '#434343', '#1f1f1f'];
   let greyConstant = ['#fafafb', '#e6ebf1'];
+  let alternate = {
+    main: '#f7faff',
+    dark: '#edf1f7'
+  };
+  let cardShadow = 'rgba(23, 70, 161, .11)';
 
   if (mode === ThemeMode.DARK) {
     greyPrimary = ['#000000', '#141414', '#1e1e1e', '#595959', '#8c8c8c', '#bfbfbf', '#d9d9d9', '#f0f0f0', '#f5f5f5', '#fafafa', '#ffffff'];
     // greyPrimary.reverse();
     greyAscent = ['#fafafa', '#bfbfbf', '#434343', '#1f1f1f'];
     greyConstant = ['#121212', '#d3d8db'];
+    alternate = {
+      main: '#1a2138',
+      dark: '#151a30'
+    };
+    cardShadow = 'rgba(0, 0, 0, .11)';
   }
   colors.grey = [...greyPrimary, ...greyAscent, ...greyConstant];
 
@@ -82,6 +92,8 @@ const Palette = (mode: ThemeMode, presetColor: PresetColor) => {
         black: '#000',
         white: '#fff'
       },
+      alternate,
+      cardShadow,
       ...paletteColor,
       text: {
         primary: mode === ThemeMode.DARK ? alpha(paletteColor.grey[900]!, 0.87) : paletteColor.grey[700],

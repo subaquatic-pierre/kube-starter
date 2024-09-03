@@ -7,12 +7,14 @@ export const GET_ADMINS = `/api/profiles/admins`;
 
 export const PROFILE = '/api/profiles/me';
 export const PROFILES = '/api/profiles?populate[0]=user.role';
-export const REGISTER = '/api/auth/local/register';
+export const REGISTER = '/api/auth/register';
 export const LOGIN = '/api/auth/login';
 export const FORGOT_PASSWORD = '/api/auth/forgot-password';
 export const RESET_PASSWORD = '/api/auth/reset-password';
 export const USER = '/api/auth/me';
 export const EMAIL_CONFIRMATION = '/api/auth/send-email-confirmation';
+
+export const GET_SITE_SETTINGS = '/api/auth/site-settings';
 
 export const GET_PROFILE = (id: string) => `/api/profiles/${id}?${populateUserParams}`;
 

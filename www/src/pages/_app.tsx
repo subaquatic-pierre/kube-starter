@@ -22,6 +22,7 @@ import { ConfigProvider } from 'contexts/ConfigContext';
 import { store } from 'store';
 import ThemeCustomization from 'themes';
 import { AuthContextProvider } from 'contexts/AuthContext';
+import 'styles/main.css';
 
 // types
 type LayoutProps = NextPage & {

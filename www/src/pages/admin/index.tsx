@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Grid, Typography, Box } from '@mui/material';
 
 // project imports
-import Layout from 'layout';
+import Layout from 'layouts';
 import useAuth from 'hooks/useAuth';
 
 import Page from 'components/Page';

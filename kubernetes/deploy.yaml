@@ -6,16 +6,16 @@ items:
     kind: Deployment
     metadata:
       labels:
-        app: kube-starter-api
-      name: kube-starter-api
-      namespace: kube-starter
+        app: fastpyfolio-api
+      name: fastpyfolio-api
+      namespace: fastpyfolio
     spec:
       progressDeadlineSeconds: 600
       replicas: 1
       revisionHistoryLimit: 10
       selector:
         matchLabels:
-          app: kube-starter-api
+          app: fastpyfolio-api
       strategy:
         rollingUpdate:
           maxSurge: 25%
@@ -24,15 +24,15 @@ items:
       template:
         metadata:
           labels:
-            app: kube-starter-api
+            app: fastpyfolio-api
         spec:
           containers:
-            - image: docker-user/kube-starter-api:0.10
+            - image: docker-user/fastpyfolio-api:0.10
               imagePullPolicy: IfNotPresent
-              name: kube-starter-api
+              name: fastpyfolio-api
               envFrom:
                 - configMapRef:
-                    name: kube-starter-config
+                    name: fastpyfolio-config
 
           imagePullSecrets:
             - name: regcred-docker
@@ -43,16 +43,16 @@ items:
     kind: Deployment
     metadata:
       labels:
-        app: kube-starter-www
-      name: kube-starter-www
-      namespace: kube-starter
+        app: fastpyfolio-www
+      name: fastpyfolio-www
+      namespace: fastpyfolio
     spec:
       progressDeadlineSeconds: 600
       replicas: 1
       revisionHistoryLimit: 10
       selector:
         matchLabels:
-          app: kube-starter-www
+          app: fastpyfolio-www
       strategy:
         rollingUpdate:
           maxSurge: 25%
@@ -61,15 +61,15 @@ items:
       template:
         metadata:
           labels:
-            app: kube-starter-www
+            app: fastpyfolio-www
         spec:
           containers:
-            - image: docker-user/kube-starter-www:0.10
+            - image: docker-user/fastpyfolio-www:0.10
               imagePullPolicy: IfNotPresent
-              name: kube-starter-www
+              name: fastpyfolio-www
               envFrom:
                 - configMapRef:
-                    name: kube-starter-config
+                    name: fastpyfolio-config
 
           imagePullSecrets:
             - name: regcred-docker

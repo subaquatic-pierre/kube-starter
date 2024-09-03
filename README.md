@@ -57,7 +57,7 @@ To get started with Kube Starter, make sure you have the following installed:
 Clone the repository:
 
 ```sh
-git clone https://github.com/subaquatic-pierre/kube-starter.git
+git clone https://github.com/subaquatic-pierre/kube-starter
 cd kube-starter
 ```
 
